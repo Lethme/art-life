@@ -1,0 +1,17 @@
+.media-mt(@breakpoint, @rules) {
+  @media (min-width: @breakpoint) {
+    @rules();
+  }
+}
+
+.media-lt(@breakpoint, @rules) {
+  @media (max-width: @breakpoint) {
+    @rules();
+  }
+}
+
+.media-between(@min, @max, @rules) {
+  @media (min-width: @min) and (max-width: @max) {
+    @rules();
+  }
+}
