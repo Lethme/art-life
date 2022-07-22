@@ -1,0 +1,32 @@
+.filter__button {
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  background: #84CCC9;
+  border-radius: 50px;
+  padding: 15px 50px;
+  white-space: nowrap;
+  -webkit-transition: background 0.3s ease 0s;
+  -o-transition: background 0.3s ease 0s;
+  transition: background 0.3s ease 0s;
+
+  &:hover {
+    background-color: #54ACA3;
+  }
+
+  .media-mt(75em, {
+    & {
+      font-size: 18px;
+      line-height: 1.2777777778;
+      padding: 18.5px 44.5px;
+    }
+  });
+
+  .media-lt(47.99875em, {
+    & {
+      margin-bottom: -1.5625rem;
+    }
+  });
+}

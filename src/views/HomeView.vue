@@ -1,17 +1,61 @@
 <template>
   <div class="home">
-    <art-life-header />
+    <art-life-product-card-slider :products="products" />
+    <art-life-rate-picker :maxRate="5" @ratechange="onRateChanged" />
+    <art-life-checkbox labelText="123" @statechange="onCheckboxStateChanged" />
+    <art-life-price-picker id="price-picker" :min="-100" :max="100" />
+    <art-life-footer />
+    <!--    <art-life-header />-->
+    <!--    <art-life-action-button type="log" image="user-icon">-->
+    <!--      Зарегистрироваться-->
+    <!--    </art-life-action-button>-->
+    <!--    <art-life-filter-button>Искать тур</art-life-filter-button>-->
+    <!--    <art-life-product-button>Оставить заявку</art-life-product-button>-->
+    <!--    <art-life-product-link to="/"></art-life-product-link>-->
+    <!--    <art-life-swipe-hint />-->
+    <!--    <art-life-product-card-->
+    <!--      imageSource="charter/01"-->
+    <!--      title="Путешествие в Кению"-->
+    <!--      description="Позавтракаем с жирафами, увидим диких кошек на вечернем сафари и встретим восход солнца в саванне на воздушном шаре!"-->
+    <!--      dates="5 марта - 9 марта"-->
+    <!--      price="12 500$"-->
+    <!--    />-->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ArtLifeHeader from "@/components/HeaderComponent";
+import ArtLifeProductCardSlider from "@/components/ProductCardSliderComponent";
+import ArtLifeFooter from "@/components/FooterComponent";
+import UI from "@/components/UI";
 
 export default defineComponent({
   name: "HomeView",
   components: {
-    ArtLifeHeader,
+    ...UI,
+    ArtLifeProductCardSlider,
+    ArtLifeFooter,
+  },
+  data() {
+    return {
+      products: Array(10).fill({
+        imageSource: "charter/01",
+        title: "Путешествие в Кению",
+        description:
+          "Позавтракаем с жирафами, увидим диких кошек на вечернем сафари и встретим восход солнца в саванне на воздушном шаре!",
+        dates: "5 марта - 9 марта",
+        price: "12 500$",
+        linkUrl: "/test",
+      }),
+    };
+  },
+  methods: {
+    onRateChanged(rate: number) {
+      console.log(rate);
+    },
+    onCheckboxStateChanged(state: boolean) {
+      console.log(state);
+    },
   },
 });
 </script>

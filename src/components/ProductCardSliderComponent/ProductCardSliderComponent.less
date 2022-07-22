@@ -1,0 +1,145 @@
+.filter-price {
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .filter-price__title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-price__slider {
+    background: #FBFBFB;
+    -webkit-box-shadow: inset 0px 1px 1px rgba(84, 172, 163, 0.05);
+    box-shadow: inset 0px 1px 1px rgba(84, 172, 163, 0.05);
+    border-radius: 10px;
+    height: 3px;
+    width: 100%;
+    margin-bottom: 1.125rem;
+    position: relative;
+
+    .noUi-base,
+    .noUi-connects {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .noUi-connects {
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .noUi-connect,
+    .noUi-origin {
+      will-change: transform;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      -ms-transform-origin: 0 0;
+      -webkit-transform-origin: 0 0;
+      -webkit-transform-style: preserve-3d;
+      transform-origin: 0 0;
+      -webkit-transform-style: flat;
+      transform-style: flat;
+    }
+
+    .noUi-connect {
+      background: #84CCC9;
+    }
+
+    .noUi-handle {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #D6EBEC;
+      cursor: pointer;
+    }
+
+    .noUi-handle::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #84CCC9;
+    }
+
+    .noUi-handle-lower::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: 4px;
+      width: 6px;
+      height: 6px;
+      background: #84CCC9;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    .noUi-handle-upper::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 4px;
+      width: 6px;
+      height: 6px;
+      background: #84CCC9;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    .noUi-tooltip {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
+      font-size: 12px;
+      line-height: 15px;
+      color: #000000;
+    }
+  }
+
+  .filter-price__currency {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    .filter-price__currency-item {
+      width: 25.43px;
+      height: 18px;
+      border-radius: 5px;
+      border: 1px solid #84CCC9;
+      font-size: 10px;
+      line-height: 1.8;
+      font-weight: 700;
+      text-align: center;
+      color: #84CCC9;
+      cursor: pointer;
+
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+
+      &.filter-price__currency-current {
+        background: #84CCC9;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
