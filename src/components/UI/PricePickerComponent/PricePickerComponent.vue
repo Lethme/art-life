@@ -61,12 +61,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { Currency } from "./types";
-
-type Price = {
-  min: number;
-  max: number;
-};
+import { Currency, Price, PricePickerState } from "./types";
 
 type UpdateFunc = (values: number[], valueIndex: number) => void;
 
@@ -81,10 +76,6 @@ type InitFunc = (
 export default defineComponent({
   name: "ArtLifePricePicker",
   props: {
-    id: {
-      required: true,
-      type: String as PropType<string>,
-    },
     min: {
       required: false,
       type: Number as PropType<number>,
@@ -106,16 +97,28 @@ export default defineComponent({
         return 1;
       },
     },
+    id: {
+      required: true,
+      type: String as PropType<string>,
+    },
   },
   data() {
     return {
       price: {
-        min: this.min,
-        max: this.max,
+        min: +this.min,
+        max: +this.max,
       },
       currency: Currency.Rubble,
       CurrencyEnum: Currency,
     };
+  },
+  computed: {
+    state(): PricePickerState {
+      return {
+        currency: this.currency,
+        price: { ...this.price },
+      };
+    },
   },
   mounted() {
     /* Another forced thing to make price picker work */
@@ -134,6 +137,8 @@ export default defineComponent({
               min: +values[0],
               max: +values[1],
             };
+
+            this.$emit("statechange", this.state);
           }
         );
       }
@@ -146,19 +151,19 @@ export default defineComponent({
     setCurrency(c: Currency) {
       if (this.currency !== c) {
         this.currency = c;
-        console.log(this.currency);
+        this.$emit("statechange", this.state);
       }
     },
     setMinPrice(value: number) {
-      console.log(value);
       if (value <= this.price.max) {
         this.price.min = value;
+        this.$emit("statechange", this.state);
       }
     },
     setMaxPrice(value: number) {
-      console.log(value);
       if (value >= this.price.min) {
         this.price.max = value;
+        this.$emit("statechange", this.state);
       }
     },
   },

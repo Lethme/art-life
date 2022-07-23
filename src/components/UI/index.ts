@@ -6,6 +6,7 @@ import ArtLifeSwipeHint from "./SwipeHintComponent";
 import ArtLifeCheckbox from "./CheckboxComponent";
 import ArtLifeRatePicker from "./RatePickerComponent";
 import ArtLifePricePicker from "./PricePickerComponent";
+import ArtLifeRegionPicker from "./RegionPickerComponent";
 
 export default {
   ArtLifeActionButton,
@@ -16,4 +17,5 @@ export default {
   ArtLifeCheckbox,
   ArtLifeRatePicker,
   ArtLifePricePicker,
+  ArtLifeRegionPicker,
 };

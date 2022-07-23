@@ -3,7 +3,16 @@
     <art-life-product-card-slider :products="products" />
     <art-life-rate-picker :maxRate="5" @ratechange="onRateChanged" />
     <art-life-checkbox labelText="123" @statechange="onCheckboxStateChanged" />
-    <art-life-price-picker id="price-picker" :min="-100" :max="100" />
+    <art-life-price-picker
+      id="price-picker"
+      :min="-100"
+      :max="100"
+      @statechange="onPricePickerStateChanged"
+    />
+    <art-life-region-picker
+      :regions="regions"
+      @statechange="onRegionPickerStateChanged"
+    />
     <art-life-footer />
     <!--    <art-life-header />-->
     <!--    <art-life-action-button type="log" image="user-icon">-->
@@ -28,6 +37,10 @@ import { defineComponent } from "vue";
 import ArtLifeProductCardSlider from "@/components/ProductCardSliderComponent";
 import ArtLifeFooter from "@/components/FooterComponent";
 import UI from "@/components/UI";
+import { PricePickerState } from "@/components/UI/PricePickerComponent/types";
+import { RatePickerState } from "@/components/UI/RatePickerComponent/types";
+import { CheckboxState } from "@/components/UI/CheckboxComponent/types";
+import { RegionPickerState } from "@/components/UI/RegionPickerComponent/types";
 
 export default defineComponent({
   name: "HomeView",
@@ -47,13 +60,20 @@ export default defineComponent({
         price: "12 500$",
         linkUrl: "/test",
       }),
+      regions: ["Албания", "Анталия", "Аргентина"],
     };
   },
   methods: {
-    onRateChanged(rate: number) {
-      console.log(rate);
+    onRateChanged(state: RatePickerState) {
+      console.log(state);
     },
-    onCheckboxStateChanged(state: boolean) {
+    onCheckboxStateChanged(state: CheckboxState) {
+      console.log(state);
+    },
+    onPricePickerStateChanged(state: PricePickerState) {
+      console.log(state);
+    },
+    onRegionPickerStateChanged(state: RegionPickerState) {
       console.log(state);
     },
   },

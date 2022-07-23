@@ -17,10 +17,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import { RatePickerState } from "./types";
 
 export default defineComponent({
   name: "ArtLifeRatePicker",
   props: {
+    staticRate: {
+      required: false,
+      type: Number as PropType<number>,
+    },
     maxRate: {
       required: false,
       type: Number as PropType<number>,
@@ -28,16 +33,19 @@ export default defineComponent({
         return 5;
       },
     },
-    staticRate: {
-      required: false,
-      type: Number as PropType<number>,
-    },
   },
   data() {
     return {
       rate: 1,
       demoRate: 1,
     };
+  },
+  computed: {
+    state(): RatePickerState {
+      return {
+        rate: this.rate,
+      };
+    },
   },
   mounted() {
     if (this.staticRate) {
@@ -53,7 +61,7 @@ export default defineComponent({
     setRate(rate: number) {
       if (!this.staticRate) {
         this.rate = rate;
-        this.$emit("ratechange", this.rate);
+        this.$emit("ratechange", this.state);
       }
     },
   },

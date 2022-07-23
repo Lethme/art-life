@@ -8314,7 +8314,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     destroy
                 });
             }
-            function initSliders() {
+            function initProductSliders(breakpoints) {
                 if (document.querySelector(".product")) new core(".product", {
                     modules: [ Navigation ],
                     observer: true,
@@ -8323,19 +8323,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         prevEl: ".swiper-button-prev",
                         nextEl: ".swiper-button-next"
                     },
-                    breakpoints: {
-                        320: {
-                            slidesPerView: "auto",
-                            spaceBetween: 32,
-                            speed: 1e3
-                        },
-                        1200: {
-                            slidesPerView: 4,
-                            spaceBetween: 32
-                        }
-                    },
+                    breakpoints,
                     on: {},
                 });
+            }
+            function initSliders() {
                 if (document.querySelector(".tour-preview__slider")) new core(".tour-preview__slider", {
                     modules: [ Navigation ],
                     observer: true,
@@ -8419,6 +8411,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             document.initSliders = initSliders;
+            document.initProductSliders = initProductSliders;
             window.addEventListener("load", (function(e) {
                 initSliders();
             }));
