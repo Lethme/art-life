@@ -4466,6 +4466,7 @@ section {
   .product .swiper-slide-prev,
   .product .swiper-slide-next {
     opacity: 0.5;
+    transition: all .1s ease;
   }
 }
 
@@ -4571,6 +4572,7 @@ section {
 
   .product .swiper-slide {
     opacity: 0.5;
+    transition: all .1s ease;
   }
 
   .product .swiper-slide-active,

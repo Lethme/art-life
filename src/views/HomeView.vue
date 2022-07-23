@@ -2,6 +2,7 @@
   <div class="home">
     <art-life-product-card-slider :products="products" />
     <art-life-rate-picker :maxRate="5" @ratechange="onRateChanged" />
+    <art-life-rate-picker :maxRate="10" @ratechange="onRateChanged" />
     <art-life-checkbox labelText="123" @statechange="onCheckboxStateChanged" />
     <art-life-price-picker
       id="price-picker"
@@ -12,6 +13,11 @@
     <art-life-region-picker
       :regions="regions"
       @statechange="onRegionPickerStateChanged"
+    />
+    <art-life-inline-datepicker
+      :from="new Date(Date.now())"
+      lang="ru"
+      @statechange="onDatepickerStateChanged"
     />
     <art-life-footer />
     <!--    <art-life-header />-->
@@ -41,6 +47,7 @@ import { PricePickerState } from "@/components/UI/PricePickerComponent/types";
 import { RatePickerState } from "@/components/UI/RatePickerComponent/types";
 import { CheckboxState } from "@/components/UI/CheckboxComponent/types";
 import { RegionPickerState } from "@/components/UI/RegionPickerComponent/types";
+import { InlineDatepickerState } from "@/components/UI/InlineDatepickerComponent/types";
 
 export default defineComponent({
   name: "HomeView",
@@ -74,6 +81,9 @@ export default defineComponent({
       console.log(state);
     },
     onRegionPickerStateChanged(state: RegionPickerState) {
+      console.log(state);
+    },
+    onDatepickerStateChanged(state: InlineDatepickerState) {
       console.log(state);
     },
   },

@@ -7,6 +7,7 @@ import ArtLifeCheckbox from "./CheckboxComponent";
 import ArtLifeRatePicker from "./RatePickerComponent";
 import ArtLifePricePicker from "./PricePickerComponent";
 import ArtLifeRegionPicker from "./RegionPickerComponent";
+import ArtLifeInlineDatepicker from "./InlineDatepickerComponent";
 
 export default {
   ArtLifeActionButton,
@@ -18,4 +19,5 @@ export default {
   ArtLifeRatePicker,
   ArtLifePricePicker,
   ArtLifeRegionPicker,
+  ArtLifeInlineDatepicker,
 };
