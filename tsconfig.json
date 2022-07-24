@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+    //"strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "noImplicitThis": true,
+    //"noImplicitThis": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
