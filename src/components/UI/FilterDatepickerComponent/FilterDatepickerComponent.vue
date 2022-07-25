@@ -113,7 +113,7 @@ export default defineComponent({
 
       if (this.dateFrom) {
         const dateFromMoment = moment(this.dateFrom.getTime());
-        return `С ${dateFromMoment.format("MMMM D, YYYY")}`;
+        return `${dateFromMoment.format("MMMM D, YYYY")}`;
       }
 
       return "Не выбрано";
