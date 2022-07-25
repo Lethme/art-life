@@ -18,7 +18,9 @@
       :from="new Date(Date.now())"
       lang="ru"
       @statechange="onDatepickerStateChanged"
+      v-model="date"
     />
+    <art-life-filter-datepicker @statechange="onFilterDatepickerStateChanged" />
     <art-life-footer />
     <!--    <art-life-header />-->
     <!--    <art-life-action-button type="log" image="user-icon">-->
@@ -48,6 +50,7 @@ import { RatePickerState } from "@/components/UI/RatePickerComponent/types";
 import { CheckboxState } from "@/components/UI/CheckboxComponent/types";
 import { RegionPickerState } from "@/components/UI/RegionPickerComponent/types";
 import { InlineDatepickerState } from "@/components/UI/InlineDatepickerComponent/types";
+import { FilterDatepickerState } from "@/components/UI/FilterDatepickerComponent/types";
 
 export default defineComponent({
   name: "HomeView",
@@ -68,6 +71,12 @@ export default defineComponent({
         linkUrl: "/test",
       }),
       regions: ["Албания", "Анталия", "Аргентина"],
+      date: undefined,
+      checked: true,
+      dates: {
+        from: new Date(Date.now()),
+        to: new Date(Date.now() + 24 * 60 * 60 * 60 * 1000),
+      },
     };
   },
   methods: {
@@ -84,6 +93,9 @@ export default defineComponent({
       console.log(state);
     },
     onDatepickerStateChanged(state: InlineDatepickerState) {
+      console.log(state);
+    },
+    onFilterDatepickerStateChanged(state: FilterDatepickerState) {
       console.log(state);
     },
   },

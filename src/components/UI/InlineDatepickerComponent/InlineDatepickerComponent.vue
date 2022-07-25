@@ -4,14 +4,19 @@
     :monday-first="true"
     :inline="true"
     :typeable="false"
-    :value="date"
+    :modelValue="value"
+    :value="value"
     @selected="dateSelected"
     :language="lang"
+    calendar-class="no-shadow no-topbar"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
+/* It's actually a component from vuejs3-datepicker package */
+/* https://www.npmjs.com/package/vuejs3-datepicker */
 import Datepicker from "@/components/UI/DatePickerComponent";
 import { InlineDatepickerState } from "./types";
 
@@ -29,6 +34,13 @@ export default defineComponent({
       required: false,
       type: Object as () => Date,
     },
+    value: {
+      required: false,
+      type: Object as () => Date,
+      default() {
+        return null;
+      },
+    },
     lang: {
       required: false,
       type: String as () => string,
@@ -39,7 +51,7 @@ export default defineComponent({
   },
   data() {
     return {
-      date: undefined,
+      date: this.value,
     };
   },
   computed: {
@@ -54,14 +66,14 @@ export default defineComponent({
         return new Date(date.setTime(date.getTime() - 24 * 60 * 60 * 1000));
       }
 
-      return undefined;
+      return null;
     },
     dateTo() {
       if (this.to) {
         return this.to;
       }
 
-      return undefined;
+      return null;
     },
     disabledDates() {
       return {
@@ -75,13 +87,19 @@ export default defineComponent({
   },
   methods: {
     dateSelected(date: Date | null) {
-      this.date = date;
+      if (this.date?.getTime() === date?.getTime()) {
+        this.date = null;
+      } else {
+        this.date = date;
+      }
+
       this.$emit("statechange", this.state);
+      this.$emit("update:modelValue", this.date);
     },
   },
 });
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import "InlineDatepickerComponent";
 </style>

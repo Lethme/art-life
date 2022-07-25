@@ -51,6 +51,14 @@
     box-shadow: 0 0.2rem 1rem rgba(0,0,0,.12);
     border-radius: 4px;
     margin-top: 4px;
+    &.no-topbar {
+      [class*=-topbar] {
+        display: none;
+      }
+    }
+    &.no-shadow {
+      box-shadow: none;
+    }
     &-topbar{
         background-color: @green;
         color: @white;
@@ -148,13 +156,14 @@
       vertical-align: middle;
       border: 1px solid transparent;
       position: relative;
+      transition: all .1s ease;
       &.month, &.year{
         padding: 10px 5px;
         height: 50px;
         line-height: 28px;
       }
       &.day-header{
-        text-transform: uppercase;
+        //text-transform: uppercase;
       }
       &::after {
         content: '';

@@ -1592,6 +1592,8 @@ section {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .filter-calendar__main {
@@ -1599,6 +1601,8 @@ section {
       -ms-flex: 0 0 510px;
           flex: 0 0 510px;
   margin-right: 1.875rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .filter-calendar__right {

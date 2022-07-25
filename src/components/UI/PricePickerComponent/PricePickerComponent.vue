@@ -170,6 +170,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import "PricePickerComponent";
 </style>
