@@ -4,8 +4,7 @@
     :monday-first="true"
     :inline="true"
     :typeable="false"
-    :modelValue="value"
-    :value="value"
+    :value="modelValue"
     @selected="dateSelected"
     :language="lang"
     calendar-class="no-shadow no-topbar"
@@ -34,7 +33,7 @@ export default defineComponent({
       required: false,
       type: Object as () => Date,
     },
-    value: {
+    modelValue: {
       required: false,
       type: Object as () => Date,
       default() {
@@ -49,21 +48,15 @@ export default defineComponent({
       },
     },
   },
-  data() {
-    return {
-      date: this.value,
-    };
-  },
   computed: {
-    state(): InlineDatepickerState {
-      return {
-        date: this.date,
-      };
-    },
     dateFrom() {
       if (this.from) {
-        const date = new Date(this.from);
-        return new Date(date.setTime(date.getTime() - 24 * 60 * 60 * 1000));
+        //const date = new Date(this.from.getTime() - 24 * 60 * 60 * 1000);
+        return new Date(
+          this.from.getFullYear(),
+          this.from.getMonth(),
+          this.from.getDate()
+        );
       }
 
       return null;
@@ -87,14 +80,19 @@ export default defineComponent({
   },
   methods: {
     dateSelected(date: Date | null) {
-      if (this.date?.getTime() === date?.getTime()) {
-        this.date = null;
+      let newDate: Date | null;
+
+      if (
+        Math.abs(this.modelValue?.getTime() - date?.getTime()) <
+        24 * 60 * 60 * 1000
+      ) {
+        newDate = null;
       } else {
-        this.date = date;
+        newDate = date;
       }
 
-      this.$emit("statechange", this.state);
-      this.$emit("update:modelValue", this.date);
+      this.$emit("statechange", { date: newDate });
+      this.$emit("update:modelValue", newDate);
     },
   },
 });

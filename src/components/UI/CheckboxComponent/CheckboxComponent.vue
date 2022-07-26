@@ -4,7 +4,7 @@
       <input
         class="checkbox__input"
         type="checkbox"
-        :checked="checkedState"
+        :checked="modelValue"
         @change="switchState"
       />
       <span class="checkbox__control icon-check"></span>
@@ -24,7 +24,7 @@ export default defineComponent({
       required: true,
       type: String as PropType<string>,
     },
-    checked: {
+    modelValue: {
       required: false,
       type: Boolean as PropType<boolean>,
       default() {
@@ -32,22 +32,10 @@ export default defineComponent({
       },
     },
   },
-  data() {
-    return {
-      checkedState: this.checked,
-    };
-  },
-  computed: {
-    state(): CheckboxState {
-      return {
-        checked: this.checkedState,
-      };
-    },
-  },
   methods: {
     switchState() {
-      this.checkedState = !this.checkedState;
-      this.$emit("statechange", this.state);
+      this.$emit("update:modelValue", !this.modelValue);
+      this.$emit("statechange", !this.modelValue);
     },
   },
 });

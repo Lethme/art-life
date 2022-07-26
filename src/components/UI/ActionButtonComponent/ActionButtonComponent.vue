@@ -1,5 +1,9 @@
 <template>
-  <button type="button" :class="'action__button action__button-' + type">
+  <button
+    @click="onClick"
+    type="button"
+    :class="'action__button action__button-' + type"
+  >
     <slot></slot>
     <i v-if="image" class="action__button-icon">
       <picture>
@@ -29,6 +33,11 @@ export default defineComponent({
     image: {
       required: false,
       type: String as PropType<string>,
+    },
+  },
+  methods: {
+    onClick(e) {
+      this.$emit("click", e);
     },
   },
 });

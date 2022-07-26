@@ -6,7 +6,7 @@
     <div
       v-for="index in maxRate"
       :class="`rate-selector-item${
-        rate >= index || demoRate >= index ? ' active' : ''
+        modelValue >= index || demoRate >= index ? ' active' : ''
       }`"
       :key="index"
       @mouseover="() => setDemoRate(index)"
@@ -22,6 +22,13 @@ import { RatePickerState } from "./types";
 export default defineComponent({
   name: "ArtLifeRatePicker",
   props: {
+    modelValue: {
+      required: false,
+      type: Number as PropType<number>,
+      default() {
+        return 1;
+      },
+    },
     staticRate: {
       required: false,
       type: Number as PropType<number>,
@@ -36,20 +43,12 @@ export default defineComponent({
   },
   data() {
     return {
-      rate: 1,
       demoRate: 1,
     };
   },
-  computed: {
-    state(): RatePickerState {
-      return {
-        rate: this.rate,
-      };
-    },
-  },
   mounted() {
     if (this.staticRate) {
-      this.rate = this.staticRate;
+      this.$emit("update:modelValue", this.staticRate);
     }
   },
   methods: {
@@ -60,8 +59,8 @@ export default defineComponent({
     },
     setRate(rate: number) {
       if (!this.staticRate) {
-        this.rate = rate;
-        this.$emit("ratechange", this.state);
+        this.$emit("update:modelValue", rate);
+        this.$emit("statechange", { rate });
       }
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="product__item-button">
+  <button @click="onClick" type="button" class="product__item-button">
     <slot></slot>
   </button>
 </template>
@@ -9,6 +9,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ArtLifeProductButton",
+  methods: {
+    onClick(e) {
+      this.$emit("click", e);
+    },
+  },
 });
 </script>
 

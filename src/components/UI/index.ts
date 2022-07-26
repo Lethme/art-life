@@ -9,8 +9,10 @@ import ArtLifePricePicker from "./PricePickerComponent";
 import ArtLifeRegionPicker from "./RegionPickerComponent";
 import ArtLifeInlineDatepicker from "./InlineDatepickerComponent";
 import ArtLifeFilterDatepicker from "./FilterDatepickerComponent";
+import ArtLifeFilterDatepickerLink from "./FilterDatepickerLinkComponent";
+import ArtLifeFilterDatepickerList from "./FilterDatepickerListComponent";
 
-export default {
+const UIComponents = {
   ArtLifeActionButton,
   ArtLifeFilterButton,
   ArtLifeProductButton,
@@ -22,4 +24,8 @@ export default {
   ArtLifeRegionPicker,
   ArtLifeInlineDatepicker,
   ArtLifeFilterDatepicker,
+  ArtLifeFilterDatepickerLink,
+  ArtLifeFilterDatepickerList,
 };
+
+export default UIComponents;

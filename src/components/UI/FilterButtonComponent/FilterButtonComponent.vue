@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" class="filter__button">
+  <button @click="onClick" type="submit" class="filter__button">
     <slot></slot>
   </button>
 </template>
@@ -9,6 +9,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ArtLifeFilterButton",
+  methods: {
+    onClick(e) {
+      this.$emit("click", e);
+    },
+  },
 });
 </script>
 

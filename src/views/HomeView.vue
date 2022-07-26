@@ -1,9 +1,21 @@
 <template>
   <div class="home">
     <art-life-product-card-slider :products="products" />
-    <art-life-rate-picker :maxRate="5" @ratechange="onRateChanged" />
-    <art-life-rate-picker :maxRate="10" @ratechange="onRateChanged" />
-    <art-life-checkbox labelText="123" @statechange="onCheckboxStateChanged" />
+    <art-life-rate-picker
+      :maxRate="5"
+      v-model="rate"
+      @statechange="onRateChanged"
+    />
+    <art-life-rate-picker
+      :maxRate="10"
+      v-model="longRate"
+      @statechange="onRateChanged"
+    />
+    <art-life-checkbox
+      labelText="123"
+      v-model="checked"
+      @statechange="onCheckboxStateChanged"
+    />
     <art-life-price-picker
       id="price-picker"
       :min="-100"
@@ -17,7 +29,6 @@
     <art-life-inline-datepicker
       :from="new Date(Date.now())"
       lang="ru"
-      @statechange="onDatepickerStateChanged"
       v-model="date"
     />
     <art-life-filter-datepicker @statechange="onFilterDatepickerStateChanged" />
@@ -77,6 +88,8 @@ export default defineComponent({
         from: new Date(Date.now()),
         to: new Date(Date.now() + 24 * 60 * 60 * 60 * 1000),
       },
+      rate: 2,
+      longRate: 7,
     };
   },
   methods: {
@@ -90,9 +103,6 @@ export default defineComponent({
       console.log(state);
     },
     onRegionPickerStateChanged(state: RegionPickerState) {
-      console.log(state);
-    },
-    onDatepickerStateChanged(state: InlineDatepickerState) {
       console.log(state);
     },
     onFilterDatepickerStateChanged(state: FilterDatepickerState) {
