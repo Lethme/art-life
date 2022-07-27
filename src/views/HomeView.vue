@@ -17,7 +17,7 @@
       @statechange="onCheckboxStateChanged"
     />
     <art-life-price-picker
-      id="price-picker"
+      id="price-picker-test"
       :min="-100"
       :max="100"
       @statechange="onPricePickerStateChanged"
@@ -25,6 +25,7 @@
     <art-life-region-picker
       :regions="regions"
       @statechange="onRegionPickerStateChanged"
+      v-model="region"
     />
     <art-life-inline-datepicker
       :from="new Date(Date.now())"
@@ -32,6 +33,7 @@
       v-model="date"
     />
     <art-life-filter-datepicker @statechange="onFilterDatepickerStateChanged" />
+    <art-life-filter />
     <art-life-footer />
     <!--    <art-life-header />-->
     <!--    <art-life-action-button type="log" image="user-icon">-->
@@ -90,6 +92,7 @@ export default defineComponent({
       },
       rate: 2,
       longRate: 7,
+      region: null,
     };
   },
   methods: {

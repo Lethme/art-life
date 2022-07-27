@@ -6,3 +6,4 @@ build/*
 !build/index.js
 
 src/components/UI/DatePickerComponent/*
+public/*

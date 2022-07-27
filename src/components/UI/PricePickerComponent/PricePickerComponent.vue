@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-price filter__price-wrapper">
+  <div class="filter__price-wrapper">
     <h4 class="filter-price__title">Ценовой диапазон</h4>
 
     <div class="filter-price__slider" :id="id"></div>
@@ -123,7 +123,8 @@ export default defineComponent({
   mounted() {
     /* Another forced thing to make price picker work */
     /* Check /public/js/apps.js for document.initRangedSlider */
-    const init = () => {
+
+    const init = async () => {
       const initRangedSlider: InitFunc = (document as any).initRangedSlider;
 
       if (initRangedSlider) {

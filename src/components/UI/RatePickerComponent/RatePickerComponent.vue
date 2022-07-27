@@ -6,7 +6,7 @@
     <div
       v-for="index in maxRate"
       :class="`rate-selector-item${
-        modelValue >= index || demoRate >= index ? ' active' : ''
+        (modelValue ?? rate) >= index || demoRate >= index ? ' active' : ''
       }`"
       :key="index"
       @mouseover="() => setDemoRate(index)"
@@ -26,7 +26,7 @@ export default defineComponent({
       required: false,
       type: Number as PropType<number>,
       default() {
-        return 1;
+        return undefined;
       },
     },
     staticRate: {
@@ -43,11 +43,13 @@ export default defineComponent({
   },
   data() {
     return {
+      rate: 1,
       demoRate: 1,
     };
   },
   mounted() {
     if (this.staticRate) {
+      this.rate = this.staticRate;
       this.$emit("update:modelValue", this.staticRate);
     }
   },
@@ -58,7 +60,8 @@ export default defineComponent({
       }
     },
     setRate(rate: number) {
-      if (!this.staticRate) {
+      if (!this.staticRate && this.rate !== rate && this.modelValue !== rate) {
+        this.rate = rate;
         this.$emit("update:modelValue", rate);
         this.$emit("statechange", { rate });
       }

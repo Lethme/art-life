@@ -15,7 +15,7 @@
         <li
           v-for="region in renderedRegions"
           :key="region"
-          :class="selected === region ? 'active' : ''"
+          :class="modelValue === region || selected === region ? 'active' : ''"
           @click="() => select(region)"
         >
           <i class="icon-compass"></i> {{ region }}
@@ -43,10 +43,17 @@ export default defineComponent({
         return "Введите регион";
       },
     },
+    modelValue: {
+      required: false,
+      type: String as () => string,
+      default() {
+        return null;
+      },
+    },
   },
   data() {
     return {
-      selected: undefined,
+      selected: null,
       searchQuery: "",
     };
   },
@@ -59,7 +66,7 @@ export default defineComponent({
     },
     state(): RegionPickerState {
       return {
-        region: this.selected,
+        region: this.modelValue ?? this.selected,
       };
     },
   },
@@ -67,6 +74,7 @@ export default defineComponent({
     select(region: string) {
       this.selected = region;
       this.$emit("statechange", this.state);
+      this.$emit("update:modelValue", region);
     },
   },
 });

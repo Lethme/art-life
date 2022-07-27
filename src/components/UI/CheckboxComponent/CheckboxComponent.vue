@@ -4,7 +4,7 @@
       <input
         class="checkbox__input"
         type="checkbox"
-        :checked="modelValue"
+        :checked="modelValue ?? checkedState"
         @change="switchState"
       />
       <span class="checkbox__control icon-check"></span>
@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { CheckboxState } from "@/components/UI/CheckboxComponent/types";
 
 export default defineComponent({
   name: "ArtLifeCheckbox",
@@ -28,12 +27,23 @@ export default defineComponent({
       required: false,
       type: Boolean as PropType<boolean>,
       default() {
-        return false;
+        return undefined;
       },
     },
   },
+  data() {
+    return {
+      checkedState: false,
+    };
+  },
+  created() {
+    if (this.modelValue !== undefined) {
+      this.checkedState = this.modelValue;
+    }
+  },
   methods: {
     switchState() {
+      this.checkedState = !this.checkedState;
       this.$emit("update:modelValue", !this.modelValue);
       this.$emit("statechange", !this.modelValue);
     },

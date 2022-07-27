@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
@@ -30,4 +32,8 @@ moment.updateLocale("ru", {
   months: monthsTitles,
 });
 
-createApp(App).use(store).use(router).use(VueAxios, axios).mount("#app");
+createApp(App)
+    .use(store)
+    .use(router)
+    .use(VueAxios, axios)
+    .mount("#app");
