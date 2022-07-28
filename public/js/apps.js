@@ -2536,7 +2536,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             function menuInit() {
                 if (document.querySelector(".icon-menu")) document.addEventListener("click", (function(e) {
-                    console.log('Хуй');
                     if (bodyLockStatus && e.target.closest(".icon-menu")) {
                         bodyLockToggle();
                         document.documentElement.classList.toggle("menu-open");
