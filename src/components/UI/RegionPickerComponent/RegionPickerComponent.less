@@ -1,0 +1,44 @@
+.filter-country-wrapper {
+  .filter-country__search {
+    margin-bottom: 0.625rem;
+
+    input {
+      padding: 8px 12px;
+      border-radius: 15px;
+      transition: all .1s ease;
+      outline: none;
+      border: 1px solid transparent;
+
+      &:focus,
+      &.filled {
+        border: 1px solid #84CCC9;
+      }
+    }
+  }
+
+  .filter-country__list {
+    li {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      margin-bottom: 0.625rem;
+      cursor: pointer;
+
+      i {
+        margin-right: 10px;
+        color: #EBEBEB;
+        -webkit-transition: color 0.3s ease 0s;
+        -o-transition: color 0.3s ease 0s;
+        transition: color 0.3s ease 0s;
+      }
+
+      &:hover i,
+      &.active i {
+        color: #84CCC9;
+      }
+    }
+  }
+}
