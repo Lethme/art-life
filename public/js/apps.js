@@ -12391,88 +12391,96 @@ document.addEventListener("DOMContentLoaded", function () {
       const da = new DynamicAdapt("min");
       da.init();
       document.initDynamicAdapt = da.init;
-      const filterDetailBtn = document.querySelector(".filter__item-detail"),
-        filterItemButton = document.querySelectorAll(".button-js"),
-        filterItem = document.querySelectorAll(".filter__item"),
-        setRatingComfort = document.getElementById("set_rating-сomfort"),
-        setRatingActivity = document.getElementById("set_rating-activity");
-      if (filterItemButton) {
-        filterItemButton.forEach((el) => {
-          el.addEventListener("click", function (e) {
-            // const rating = this.closest(".filter__item").querySelector(".rating-js"), items = this.closest(".filter__item").querySelectorAll(".filter__rating-item");
-            // if (rating) {
-            //     rating.onmouseover = function(e) {
-            //         if (e.target.classList.contains("filter__rating-item")) {
-            //             const hoverItem = e.target;
-            //             [].forEach.call(items, (function itemsHover(elem, i) {
-            //                 if (i < hoverItem.getAttribute("data-rate")) elem.classList.add("active"); else if (i >= hoverItem.getAttribute("data-rate")) elem.classList.remove("active");
-            //                 elem.classList.remove("filter__rating-current");
-            //             }));
-            //         }
-            //     };
-            //     rating.onmouseout = function(e) {
-            //         let currentNumber;
-            //         [].forEach.call(items, (function(elem, i) {
-            //             if (elem.classList.contains("filter__rating-current")) currentNumber = i;
-            //         }));
-            //         if (void 0 !== currentNumber) {
-            //             clearWitoutCurrent(currentNumber);
-            //             return;
-            //         } else clear();
-            //     };
-            //     rating.onclick = function(e) {
-            //         let target = e.target;
-            //         target.classList.add("filter__rating-current");
-            //         if (target.closest(".filter__rating-comfort")) setRatingComfort.value = target.getAttribute("data-rate"); else setRatingActivity.value = target.getAttribute("data-rate");
-            //         let siblings = target.parentNode.querySelectorAll(".filter__rating-item");
-            //         [].forEach.call(siblings, (function(el) {
-            //             if (el !== target) el.classList.remove("filter__rating-current");
-            //         }));
-            //     };
-            //     function clear() {
-            //         [].forEach.call(items, (function(elem) {
-            //             if ("1" !== elem.getAttribute("data-rate")) elem.classList.remove("active");
-            //         }));
-            //     }
-            //     function clearWitoutCurrent(currentNumber) {
-            //         [].forEach.call(items, (function(elem, i) {
-            //             if (i < currentNumber) elem.classList.add("active");
-            //         }));
-            //     }
-            // }
-            if (
-              !this.closest(".filter__item").classList.contains(
-                "filter__item-open"
-              )
-            ) {
-              //this.closest(".filter__item").classList.add("filter__item-open");
-              _slideUp(
-                this.closest(".filter__item").querySelector(".dropdown-filter"),
-                150
-              );
-            } else {
-              //this.closest(".filter__item").classList.remove("filter__item-open");
-              filterItem.forEach((element) => {
-                //element.classList.remove("filter__item-open");
-                element
-                  .querySelector(".dropdown-filter")
-                  .setAttribute("hidden", "true");
-              });
-              _slideDown(
-                this.closest(".filter__item").querySelector(".dropdown-filter"),
-                150
-              );
-            }
+      function initFilterDropdown() {
+        const filterDetailBtn = document.querySelector(".filter__item-detail"),
+          filterItemButton = document.querySelectorAll(".button-js"),
+          filterItem = document.querySelectorAll(".filter__item"),
+          setRatingComfort = document.getElementById("set_rating-сomfort"),
+          setRatingActivity = document.getElementById("set_rating-activity");
+        if (filterItemButton) {
+          filterItemButton.forEach((el) => {
+            el.addEventListener("click", function (e) {
+              // const rating = this.closest(".filter__item").querySelector(".rating-js"), items = this.closest(".filter__item").querySelectorAll(".filter__rating-item");
+              // if (rating) {
+              //     rating.onmouseover = function(e) {
+              //         if (e.target.classList.contains("filter__rating-item")) {
+              //             const hoverItem = e.target;
+              //             [].forEach.call(items, (function itemsHover(elem, i) {
+              //                 if (i < hoverItem.getAttribute("data-rate")) elem.classList.add("active"); else if (i >= hoverItem.getAttribute("data-rate")) elem.classList.remove("active");
+              //                 elem.classList.remove("filter__rating-current");
+              //             }));
+              //         }
+              //     };
+              //     rating.onmouseout = function(e) {
+              //         let currentNumber;
+              //         [].forEach.call(items, (function(elem, i) {
+              //             if (elem.classList.contains("filter__rating-current")) currentNumber = i;
+              //         }));
+              //         if (void 0 !== currentNumber) {
+              //             clearWitoutCurrent(currentNumber);
+              //             return;
+              //         } else clear();
+              //     };
+              //     rating.onclick = function(e) {
+              //         let target = e.target;
+              //         target.classList.add("filter__rating-current");
+              //         if (target.closest(".filter__rating-comfort")) setRatingComfort.value = target.getAttribute("data-rate"); else setRatingActivity.value = target.getAttribute("data-rate");
+              //         let siblings = target.parentNode.querySelectorAll(".filter__rating-item");
+              //         [].forEach.call(siblings, (function(el) {
+              //             if (el !== target) el.classList.remove("filter__rating-current");
+              //         }));
+              //     };
+              //     function clear() {
+              //         [].forEach.call(items, (function(elem) {
+              //             if ("1" !== elem.getAttribute("data-rate")) elem.classList.remove("active");
+              //         }));
+              //     }
+              //     function clearWitoutCurrent(currentNumber) {
+              //         [].forEach.call(items, (function(elem, i) {
+              //             if (i < currentNumber) elem.classList.add("active");
+              //         }));
+              //     }
+              // }
+              if (
+                !this.closest(".filter__item").classList.contains(
+                  "filter__item-open"
+                )
+              ) {
+                //this.closest(".filter__item").classList.add("filter__item-open");
+                _slideUp(
+                  this.closest(".filter__item").querySelector(
+                    ".dropdown-filter"
+                  ),
+                  150
+                );
+              } else {
+                //this.closest(".filter__item").classList.remove("filter__item-open");
+                filterItem.forEach((element) => {
+                  //element.classList.remove("filter__item-open");
+                  element
+                    .querySelector(".dropdown-filter")
+                    .setAttribute("hidden", "true");
+                });
+                _slideDown(
+                  this.closest(".filter__item").querySelector(
+                    ".dropdown-filter"
+                  ),
+                  150
+                );
+              }
+            });
           });
-        });
-        // document.addEventListener("click", (function(e) {
-        //     const el = e.target;
-        //     if (!el.closest(".filter__item")) filterItem.forEach((element => {
-        //         //element.classList.remove("filter__item-open");
-        //         _slideUp(element.querySelector(".dropdown-filter"), 150);
-        //     }));
-        // }));
+          // document.addEventListener("click", (function(e) {
+          //     const el = e.target;
+          //     if (!el.closest(".filter__item")) filterItem.forEach((element => {
+          //         //element.classList.remove("filter__item-open");
+          //         _slideUp(element.querySelector(".dropdown-filter"), 150);
+          //     }));
+          // }));
+        }
       }
+      initFilterDropdown();
+      document.initFilterDropdown = initFilterDropdown;
       // if (filterDetailBtn) filterDetailBtn.addEventListener("click", (function(e) {
       //     filterItem.forEach((element => {
       //         element.classList.remove("filter__item-open");

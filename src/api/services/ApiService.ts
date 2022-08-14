@@ -1,6 +1,6 @@
 class ApiService {
   static get ApiHost(): string {
-    return process.env.VUE_APP_API_HOST || "localhost:8080";
+    return process.env.VUE_APP_API_HOST || "localhost";
   }
   static get ApiRoutePrefix(): string[] | undefined {
     if (process.env.VUE_APP_API_ROUTE_PREFIX) {
