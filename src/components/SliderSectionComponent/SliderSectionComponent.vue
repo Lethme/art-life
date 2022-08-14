@@ -5,10 +5,8 @@
         <h2 class="section__title">{{ title }}</h2>
         <art-life-swipe-hint />
       </div>
-      <art-life-product-card-slider
-        v-if="products && products.length"
-        :products="products"
-      />
+      <art-life-product-card-slider v-if="!skeleton" :products="products" />
+      <art-life-product-card-slider-skeleton v-else />
     </div>
   </section>
 </template>
@@ -18,10 +16,12 @@ import { defineComponent, PropType } from "vue";
 import ArtLifeSwipeHint from "@/components/UI/SwipeHintComponent";
 import ArtLifeProductCardSlider from "@/components/ProductCardSliderComponent";
 import { ProductCard } from "@/components/ProductCardComponent/types";
+import ArtLifeProductCardSliderSkeleton from "@/components/ProductCardSliderComponent/skeleton/ProductCardSliderSkeletonComponent.vue";
 
 export default defineComponent({
   name: "ArtLifeSliderSection",
   components: {
+    ArtLifeProductCardSliderSkeleton,
     ArtLifeSwipeHint,
     ArtLifeProductCardSlider,
   },
@@ -36,6 +36,9 @@ export default defineComponent({
       default() {
         return [];
       },
+    },
+    skeleton: {
+      type: Boolean,
     },
   },
 });

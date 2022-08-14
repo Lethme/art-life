@@ -13,6 +13,7 @@ import ArtLifeFilterDatepickerLink from "./FilterDatepickerLinkComponent";
 import ArtLifeFilterDatepickerList from "./FilterDatepickerListComponent";
 import ArtLifeFilterDropdown from "./FilterDropdownComponent";
 import ArtLifeFilter from "./FilterComponent";
+import ArtLifePlaceholder from "./PlaceholderComponent";
 
 const UIComponents = {
   ArtLifeActionButton,
@@ -30,6 +31,7 @@ const UIComponents = {
   ArtLifeFilterDatepickerList,
   ArtLifeFilterDropdown,
   ArtLifeFilter,
+  ArtLifePlaceholder,
 };
 
 export default UIComponents;

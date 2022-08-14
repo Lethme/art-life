@@ -13,7 +13,7 @@
 
         <art-life-filter-dropdown
           icon="flag"
-          title="Выберите регион"
+          title="Выберите страну"
           dropdown-class="filter-country"
         >
           <art-life-region-picker :regions="['Test', 'Test1', 'Test2']" />

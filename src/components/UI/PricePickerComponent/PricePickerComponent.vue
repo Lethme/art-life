@@ -31,7 +31,7 @@
             : ''
         }`"
       >
-        ₽
+        {{ getCurrencySign(CurrencyEnum.Rubble) }}
       </button>
       <button
         type="button"
@@ -42,7 +42,7 @@
             : ''
         }`"
       >
-        $
+        {{ getCurrencySign(CurrencyEnum.Dollar) }}
       </button>
       <button
         type="button"
@@ -53,7 +53,7 @@
             : ''
         }`"
       >
-        €
+        {{ getCurrencySign(CurrencyEnum.Euro) }}
       </button>
     </div>
   </div>
@@ -62,6 +62,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Currency, Price, PricePickerState } from "./types";
+import { getCurrencySign } from "./types/Currency";
 
 type UpdateFunc = (values: number[], valueIndex: number) => void;
 
@@ -155,6 +156,7 @@ export default defineComponent({
         this.$emit("statechange", this.state);
       }
     },
+    getCurrencySign,
     setMinPrice(value: number) {
       if (value <= this.price.max) {
         this.price.min = value;
