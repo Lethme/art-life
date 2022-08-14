@@ -19,6 +19,7 @@
 import { defineComponent, PropType } from "vue";
 import { ProductCard } from "@/components/ProductCardComponent/types";
 import ArtLifeProductCard from "../ProductCardComponent";
+import initSliders from "@/components/ProductCardSliderComponent/init";
 
 export default defineComponent({
   name: "ArtLifeProductCardSlider",
@@ -33,28 +34,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    /* That was forced 'cause sliders would work only on a first time page is loaded */
-    /* Check /public/js/apps.js for document.initProductSliders */
-    const init = () => {
-      const initProductSliders = (document as any).initProductSliders;
-
-      if (initProductSliders) {
-        initProductSliders({
-          320: {
-            slidesPerView: "auto",
-            spaceBetween: 32,
-            speed: 1e3,
-          },
-          1200: {
-            slidesPerView: 4,
-            spaceBetween: 32,
-          },
-        });
-      }
-    };
-
-    init();
-    document.addEventListener("DOMContentLoaded", init);
+    initSliders();
   },
 });
 </script>

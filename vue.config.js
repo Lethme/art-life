@@ -1,4 +1,5 @@
 const { defineConfig } = require("@vue/cli-service");
+const Dotenv = require("dotenv-webpack");
 const path = require("path");
 
 module.exports = defineConfig({
@@ -11,5 +12,8 @@ module.exports = defineConfig({
         "src/assets/styles/global-variables.less",
       ],
     },
+  },
+  configureWebpack: {
+    plugins: [new Dotenv()],
   },
 });

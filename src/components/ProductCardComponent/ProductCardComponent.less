@@ -35,6 +35,15 @@
 
   .product__item-desc {
     margin-bottom: 1.25rem;
+    max-height: 80px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .product__item-time {

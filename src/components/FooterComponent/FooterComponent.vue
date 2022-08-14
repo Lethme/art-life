@@ -18,17 +18,13 @@
             </picture>
           </router-link>
 
-          <art-life-action-button
-            data-da=".footer__right,768,first"
-            type="log"
-            image="user-icon"
-          >
+          <art-life-action-button type="log" image="user-icon">
             Войти
           </art-life-action-button>
         </div>
 
         <div class="footer__right">
-          <p class="footer__text" data-da=".footer__left,768,2">
+          <p class="footer__text">
             ИП Чурганов Сергей Игоревич <br />
             ИНН: 781712956101 <br />
             ОГРНИП: 318784700032544
