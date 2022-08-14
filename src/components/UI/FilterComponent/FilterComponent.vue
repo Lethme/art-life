@@ -171,6 +171,20 @@ export default defineComponent({
       this.expanded = !this.expanded;
     },
   },
+  mounted() {
+    /* Yeah it's another forced thing to make dropdown animations */
+    /* work after component's remount */
+    const init = () => {
+      const initFilterDropdown = (document as any).initFilterDropdown;
+
+      if (initFilterDropdown) {
+        initFilterDropdown();
+      }
+    };
+
+    init();
+    //document.addEventListener("DOMContentLoaded", init);
+  },
 });
 </script>
 
