@@ -44,8 +44,8 @@ export default defineComponent({
   methods: {
     switchState() {
       this.checkedState = !this.checkedState;
-      this.$emit("update:modelValue", !this.modelValue);
-      this.$emit("statechange", !this.modelValue);
+      this.$emit("update:modelValue", this.checkedState);
+      this.$emit("statechange", this.checkedState);
     },
   },
 });

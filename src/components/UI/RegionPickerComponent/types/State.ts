@@ -1,5 +1,7 @@
+import CountryType from "@/api/types/CountryType";
+
 interface RegionPickerState {
-  region: string;
+  region: CountryType;
 }
 
 export default RegionPickerState;

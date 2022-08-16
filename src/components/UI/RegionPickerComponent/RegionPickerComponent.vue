@@ -15,10 +15,10 @@
         <li
           v-for="region in renderedRegions"
           :key="region"
-          :class="modelValue === region || selected === region ? 'active' : ''"
+          :class="modelValue === region.id ? 'active' : ''"
           @click="() => select(region)"
         >
-          <i class="icon-compass"></i> {{ region }}
+          <i class="icon-compass"></i> {{ region.name }}
         </li>
       </ul>
     </div>
@@ -28,53 +28,56 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import RegionPickerState from "./types/State";
+import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
+import Events from "@/api/utils/EventEmitter/types/Events";
+import CountryType from "@/api/types/CountryType";
 
 export default defineComponent({
   name: "ArtLifeRegionPicker",
   props: {
-    regions: {
-      required: true,
-      type: Array as () => string[],
-    },
+    // regions: {
+    //   required: false,
+    //   type: Array as () => string[],
+    // },
     searchPlaceholder: {
       required: false,
       type: String as () => string,
       default() {
-        return "Введите регион";
+        return "Введите страну";
       },
     },
     modelValue: {
       required: false,
-      type: String as () => string,
+      type: Number,
       default() {
         return null;
       },
     },
+    countriesFetched: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      selected: null,
       searchQuery: "",
     };
   },
   computed: {
     renderedRegions() {
-      return this.regions.filter(
+      return this.$store.getters.countries.filter(
         (region) =>
-          region.toLowerCase().indexOf(this.searchQuery.toLowerCase()) === 0
+          region.name.toLowerCase().indexOf(this.searchQuery.toLowerCase()) ===
+          0
       );
-    },
-    state(): RegionPickerState {
-      return {
-        region: this.modelValue ?? this.selected,
-      };
     },
   },
   methods: {
-    select(region: string) {
+    select(region: CountryType) {
       this.selected = region;
-      this.$emit("statechange", this.state);
-      this.$emit("update:modelValue", region);
+      this.$emit("statechange", region);
+      this.$emit("update:modelValue", region.id);
     },
   },
 });

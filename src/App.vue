@@ -16,6 +16,9 @@ export default defineComponent({
     this.$store.dispatch("fetchTourTypes").then(() => {
       EventEmitter.Emit(Events.TourTypesFetched);
     });
+    this.$store.dispatch("fetchCountries").then(() => {
+      EventEmitter.Emit(Events.CountriesFetched);
+    });
   },
 });
 </script>

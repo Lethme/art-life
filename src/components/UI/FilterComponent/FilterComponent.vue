@@ -16,7 +16,10 @@
           title="Выберите страну"
           dropdown-class="filter-country"
         >
-          <art-life-region-picker :regions="['Test', 'Test1', 'Test2']" />
+          <art-life-region-picker
+            :countries-fetched="countriesFetched"
+            v-model="country"
+          />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown
@@ -52,69 +55,20 @@
           title="Тип тура"
           dropdown-class="filter-tour"
         >
-          <ul class="dropdown-filter__list filter-tour__list">
-            <li>
-              <art-life-checkbox label-text="Хиты продаж" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Кемпы" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Круизный яхтинг" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Круиз на лайнере" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Яхтенные регаты" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="ЗОЖ-туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Спортивные туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Хиты продаж" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Лечебно-оздоровительные туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Бизнес туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Авторские туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Духовные туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Гастрономические туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Нетворкинг туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Развлекательные туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Музыкальные туры" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="Экслюзивные отели" />
-            </li>
-          </ul>
+          <art-life-tour-type-picker
+            v-model="tourTypes"
+            :tour-types-fetched="tourTypesFetched"
+          />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown icon="comfort" title="Комфорт">
           <h4 class="dropdown-filter__title">Комфорт</h4>
-          <art-life-rate-picker :max-rate="5" />
+          <art-life-rate-picker v-model="comfort" :max-rate="5" />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown icon="bike-icon" title="Физ. активность">
           <h4 class="dropdown-filter__title">Физ. активность</h4>
-          <art-life-rate-picker :max-rate="5" />
+          <art-life-rate-picker v-model="activity" :max-rate="5" />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown title="Сортировать">
@@ -149,10 +103,14 @@ import ArtLifeRatePicker from "../RatePickerComponent";
 import ArtLifeCheckbox from "../CheckboxComponent";
 import ArtLifeFilterButton from "../FilterButtonComponent";
 import ArtLifeFilterDropdown from "../FilterDropdownComponent";
+import ArtLifeTourTypePicker from "@/components/UI/TourTypePickerComponent/TourTypePickerComponent.vue";
+import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
+import Events from "@/api/utils/EventEmitter/types/Events";
 
 export default defineComponent({
   name: "ArtLifeFilter",
   components: {
+    ArtLifeTourTypePicker,
     ArtLifeFilterDatepicker,
     ArtLifeRegionPicker,
     ArtLifePricePicker,
@@ -164,6 +122,12 @@ export default defineComponent({
   data() {
     return {
       expanded: false,
+      tourTypesFetched: false,
+      countriesFetched: false,
+      tourTypes: [],
+      country: null,
+      comfort: 1,
+      activity: 1,
     };
   },
   methods: {
@@ -184,6 +148,14 @@ export default defineComponent({
 
     init();
     //document.addEventListener("DOMContentLoaded", init);
+  },
+  created() {
+    EventEmitter.On(Events.TourTypesFetched, () => {
+      this.tourTypesFetched = true;
+    });
+    EventEmitter.On(Events.CountriesFetched, () => {
+      this.countriesFetched = true;
+    });
   },
 });
 </script>
