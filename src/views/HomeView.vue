@@ -113,7 +113,7 @@ export default defineComponent({
     }
   },
   unmounted() {
-    EventEmitter.Off(Events.TourTypesFetched);
+    EventEmitter.Off(Events.TourTypesFetched, Events.CountriesFetched);
   },
 });
 </script>

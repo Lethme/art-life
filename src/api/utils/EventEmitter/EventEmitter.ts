@@ -16,10 +16,12 @@ class EventEmitter {
     event.callback.push(callback);
   }
 
-  static Off(type: Events) {
-    if (this.Exists(type)) {
-      this.Events = this.Events.filter((e) => e.type !== type);
-    }
+  static Off(...types: Events[]) {
+    types.forEach((type) => {
+      if (this.Exists(type)) {
+        this.Events = this.Events.filter((e) => e.type !== type);
+      }
+    });
   }
 
   static Emit(type: Events, ...args: any[]) {
