@@ -78,33 +78,35 @@ export default defineComponent({
   },
   created() {
     EventEmitter.On(Events.TourTypesFetched, () => {
-      ToursService.GetToursByTypeId(this.$store.getters.tourTypes[0].id, {
-        per_page: 10,
-        page: 1,
-      }).then((tours) => {
-        this.popularTours = tours.map((tour) => getProductCardFromTour(tour));
-      });
+      if (this.$store.getters.tourTypes.length) {
+        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[0].id, {
+          per_page: 10,
+          page: 1,
+        }).then((tours) => {
+          this.popularTours = tours.map((tour) => getProductCardFromTour(tour));
+        });
 
-      ToursService.GetToursByTypeId(this.$store.getters.tourTypes[1].id, {
-        per_page: 10,
-        page: 1,
-      }).then((tours) => {
-        this.yachtTours = tours.map((tour) => getProductCardFromTour(tour));
-      });
+        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[1].id, {
+          per_page: 10,
+          page: 1,
+        }).then((tours) => {
+          this.yachtTours = tours.map((tour) => getProductCardFromTour(tour));
+        });
 
-      ToursService.GetToursByTypeId(this.$store.getters.tourTypes[2].id, {
-        per_page: 10,
-        page: 1,
-      }).then((tours) => {
-        this.cruiseTours = tours.map((tour) => getProductCardFromTour(tour));
-      });
+        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[2].id, {
+          per_page: 10,
+          page: 1,
+        }).then((tours) => {
+          this.cruiseTours = tours.map((tour) => getProductCardFromTour(tour));
+        });
 
-      ToursService.GetToursByTypeId(this.$store.getters.tourTypes[3].id, {
-        per_page: 10,
-        page: 1,
-      }).then((tours) => {
-        this.yachtRent = tours.map((tour) => getProductCardFromTour(tour));
-      });
+        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[3].id, {
+          per_page: 10,
+          page: 1,
+        }).then((tours) => {
+          this.yachtRent = tours.map((tour) => getProductCardFromTour(tour));
+        });
+      }
     });
   },
   mounted() {
