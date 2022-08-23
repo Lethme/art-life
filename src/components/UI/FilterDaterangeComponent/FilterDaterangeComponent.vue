@@ -52,26 +52,20 @@ import { datesEqual } from "@/api/utils/datesEqual";
 
 export default defineComponent({
   name: "ArtLifeFilterDaterange",
-  // props: {
-  //   modelValue: {
-  //     required: false,
-  //     type: Object as () => FilterDatepickerState,
-  //     default() {
-  //       return {
-  //         from: null,
-  //         to: null,
-  //       };
-  //     },
-  //   },
-  // },
+  props: {
+    openDate: {
+      type: Object as () => FilterDaterangeState,
+      default: null,
+    },
+  },
   components: {
     ArtLifeInlineDatepicker,
     ArtLifeFilterDatepickerList,
   },
   data() {
     return {
-      dateFrom: null,
-      dateTo: null,
+      dateFrom: this.openDate?.from || null,
+      dateTo: this.openDate?.to || null,
       dateHovered: null,
       calendarOffset: new Date(),
       popularItems: [

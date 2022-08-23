@@ -8,7 +8,10 @@
           icon="datepicker"
           dropdown-class="filter-calendar"
         >
-          <art-life-filter-daterange />
+          <art-life-filter-daterange
+            :open-date="datesRange"
+            @statechange="dateRangeStateChanged"
+          />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown
@@ -106,6 +109,7 @@ import ArtLifeFilterDropdown from "../FilterDropdownComponent";
 import ArtLifeTourTypePicker from "@/components/UI/TourTypePickerComponent/TourTypePickerComponent.vue";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
+import { FilterDaterangeState } from "@/components/UI/FilterDaterangeComponent/types";
 
 export default defineComponent({
   name: "ArtLifeFilter",
@@ -125,6 +129,7 @@ export default defineComponent({
       tourTypesFetched: this.$store.getters.tourTypes.length !== 0,
       countriesFetched: this.$store.getters.countries.length !== 0,
       tourTypes: [],
+      datesRange: null,
       country: null,
       comfort: 1,
       activity: 1,
@@ -133,6 +138,9 @@ export default defineComponent({
   methods: {
     switchExpanded() {
       this.expanded = !this.expanded;
+    },
+    dateRangeStateChanged(state: FilterDaterangeState) {
+      this.datesRange = state;
     },
   },
   mounted() {
