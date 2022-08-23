@@ -8,7 +8,7 @@
           icon="datepicker"
           dropdown-class="filter-calendar"
         >
-          <art-life-filter-datepicker />
+          <art-life-filter-daterange />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown
@@ -96,7 +96,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ArtLifeFilterDatepicker from "../FilterDatepickerComponent";
+import ArtLifeFilterDaterange from "../FilterDaterangeComponent";
 import ArtLifeRegionPicker from "../RegionPickerComponent";
 import ArtLifePricePicker from "../PricePickerComponent";
 import ArtLifeRatePicker from "../RatePickerComponent";
@@ -111,7 +111,7 @@ export default defineComponent({
   name: "ArtLifeFilter",
   components: {
     ArtLifeTourTypePicker,
-    ArtLifeFilterDatepicker,
+    ArtLifeFilterDaterange,
     ArtLifeRegionPicker,
     ArtLifePricePicker,
     ArtLifeRatePicker,
@@ -122,8 +122,8 @@ export default defineComponent({
   data() {
     return {
       expanded: false,
-      tourTypesFetched: false,
-      countriesFetched: false,
+      tourTypesFetched: this.$store.getters.tourTypes.length !== 0,
+      countriesFetched: this.$store.getters.countries.length !== 0,
       tourTypes: [],
       country: null,
       comfort: 1,

@@ -5,9 +5,18 @@
     :inline="true"
     :typeable="false"
     :value="modelValue"
+    :selected-dates="selectedDates"
     @selected="dateSelected"
+    @nextClick="nextClick"
+    @prevClick="prevClick"
+    @dateHover="hoverDate"
+    @dateClick="clickDate"
     :language="lang"
     calendar-class="no-shadow no-topbar"
+    :open-date="openDate"
+    :show-prev-button="showPrevButton"
+    :show-next-button="showNextButton"
+    :highlighted-dates="highlightedDates"
   />
 </template>
 
@@ -18,6 +27,8 @@ import { defineComponent } from "vue";
 /* https://www.npmjs.com/package/vuejs3-datepicker */
 import Datepicker from "@/components/UI/DatePickerComponent";
 import { InlineDatepickerState } from "./types";
+import { validateDateInput } from "@/components/UI/DatePickerComponent/datepicker/utils/DateUtils";
+import { HighlightedDates } from "@/components/UI/FilterDaterangeComponent/types";
 
 export default defineComponent({
   name: "ArtLifeInlineDatepicker",
@@ -25,6 +36,22 @@ export default defineComponent({
     Datepicker,
   },
   props: {
+    showPrevButton: {
+      type: Boolean,
+      default: true,
+    },
+    showNextButton: {
+      type: Boolean,
+      default: true,
+    },
+    highlightedDates: {
+      type: Object as () => HighlightedDates,
+      default: null,
+    },
+    selectedDates: {
+      type: Array as () => Array<Date>,
+      default: new Array<Date>(),
+    },
     from: {
       required: false,
       type: Object as () => Date,
@@ -47,6 +74,16 @@ export default defineComponent({
         return "ru";
       },
     },
+    openDate: {
+      validator: (val: Date): boolean => validateDateInput(val),
+      type: Date as new () => Date,
+      default: new Date(),
+    },
+  },
+  data() {
+    return {
+      prevDate: null,
+    };
   },
   computed: {
     dateFrom() {
@@ -78,21 +115,31 @@ export default defineComponent({
       };
     },
   },
+  emits: [
+    "statechange",
+    "update:modelValue",
+    "prev-click",
+    "next-click",
+    "date-hover",
+    "date-click",
+  ],
   methods: {
+    prevClick() {
+      this.$emit("prev-click");
+    },
+    nextClick() {
+      this.$emit("next-click");
+    },
+    hoverDate(date?: Date) {
+      this.$emit("date-hover", date);
+    },
+    clickDate(date: Date) {
+      this.$emit("date-click", date);
+    },
     dateSelected(date: Date | null) {
-      let newDate: Date | null;
-
-      if (
-        Math.abs(this.modelValue?.getTime() - date?.getTime()) <
-        24 * 60 * 60 * 1000
-      ) {
-        newDate = null;
-      } else {
-        newDate = date;
-      }
-
-      this.$emit("statechange", { date: newDate });
-      this.$emit("update:modelValue", newDate);
+      this.$emit("statechange", { date, prev: this.prevDate });
+      this.$emit("update:modelValue", date);
+      this.prevDate = date;
     },
   },
 });

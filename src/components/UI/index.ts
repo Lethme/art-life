@@ -8,7 +8,7 @@ import ArtLifeRatePicker from "./RatePickerComponent";
 import ArtLifePricePicker from "./PricePickerComponent";
 import ArtLifeRegionPicker from "./RegionPickerComponent";
 import ArtLifeInlineDatepicker from "./InlineDatepickerComponent";
-import ArtLifeFilterDatepicker from "./FilterDatepickerComponent";
+import ArtLifeFilterDaterange from "./FilterDaterangeComponent";
 import ArtLifeFilterDatepickerLink from "./FilterDatepickerLinkComponent";
 import ArtLifeFilterDatepickerList from "./FilterDatepickerListComponent";
 import ArtLifeFilterDropdown from "./FilterDropdownComponent";
@@ -26,7 +26,7 @@ const UIComponents = {
   ArtLifePricePicker,
   ArtLifeRegionPicker,
   ArtLifeInlineDatepicker,
-  ArtLifeFilterDatepicker,
+  ArtLifeFilterDaterange,
   ArtLifeFilterDatepickerLink,
   ArtLifeFilterDatepickerList,
   ArtLifeFilterDropdown,
