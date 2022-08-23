@@ -240,11 +240,10 @@ export default defineComponent({
       }
     },
     dateStateChanged(state: InlineDatepickerState) {
-      if (
-        this.dateTo &&
-        (datesEqual(this.dateTo, state.date) ||
-          datesEqual(this.dateTo, state.prev))
-      ) {
+      if (this.dateTo && datesEqual(this.dateTo, state.date)) {
+        if (datesEqual(this.dateFrom, this.dateTo)) {
+          this.dateFrom = null;
+        }
         this.dateTo = null;
         this.$emit("statechange", this.state);
         return;
@@ -253,10 +252,10 @@ export default defineComponent({
       if (!this.dateFrom) {
         this.dateFrom = state.date ? new Date(state.date) : null;
       } else {
-        if (!datesEqual(this.dateFrom, state.date)) {
-          this.dateTo = state.date ? new Date(state.date) : null;
-        } else {
+        if (datesEqual(this.dateFrom, state.date) && !this.dateTo) {
           this.dateFrom = null;
+        } else {
+          this.dateTo = state.date ? new Date(state.date) : null;
         }
       }
 
