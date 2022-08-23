@@ -67,7 +67,7 @@ export default defineComponent({
       dateFrom: this.openDate?.from || null,
       dateTo: this.openDate?.to || null,
       dateHovered: null,
-      calendarOffset: new Date(),
+      calendarOffset: this.openDate?.offset || new Date(),
       popularItems: [
         {
           title: "Все время",
@@ -165,6 +165,7 @@ export default defineComponent({
       return {
         from: this.dateFrom,
         to: this.dateTo,
+        offset: this.calendarOffset,
       };
     },
     leftOffset() {
