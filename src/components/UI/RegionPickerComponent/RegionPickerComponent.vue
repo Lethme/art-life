@@ -11,7 +11,7 @@
     </div>
 
     <div class="filter-country__body">
-      <ul class="filter-country__list">
+      <ul v-if="countriesFetched" class="filter-country__list">
         <li
           v-for="region in renderedRegions"
           :key="region"
@@ -19,6 +19,23 @@
           @click="() => select(region)"
         >
           <i class="icon-compass"></i> {{ region.name }}
+        </li>
+      </ul>
+      <ul v-else class="filter-country__list">
+        <li v-for="i in 5" :key="i">
+          <art-life-placeholder
+            class="filter-country__list-skeleton"
+            width="25px"
+            height="20px"
+            border-radius="50%"
+          />
+          <art-life-placeholder
+            class="filter-country__list-skeleton"
+            width="100%"
+            height="20px"
+            border-radius="3px"
+            margin="0 0 0 10px"
+          />
         </li>
       </ul>
     </div>
@@ -31,9 +48,11 @@ import RegionPickerState from "./types/State";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
 import CountryType from "@/api/types/CountryType";
+import ArtLifePlaceholder from "@/components/UI/PlaceholderComponent/PlaceholderComponent.vue";
 
 export default defineComponent({
   name: "ArtLifeRegionPicker",
+  components: { ArtLifePlaceholder },
   props: {
     // regions: {
     //   required: false,
