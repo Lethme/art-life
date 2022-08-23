@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     items: {
       required: true,
-      type: Array as () => PopularItem[],
+      type: Array as () => Array<PopularItem>,
     },
   },
 });

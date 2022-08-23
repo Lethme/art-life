@@ -1,5 +1,6 @@
 interface InlineDatepickerState {
-  date: Date;
+  prev?: Date;
+  date?: Date;
 }
 
 export default InlineDatepickerState;

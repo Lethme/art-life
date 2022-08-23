@@ -76,7 +76,7 @@ export default defineComponent({
       // }),
     };
   },
-  created() {
+  mounted() {
     EventEmitter.On(Events.TourTypesFetched, () => {
       if (this.$store.getters.tourTypes.length) {
         ToursService.GetToursByTypeId(this.$store.getters.tourTypes[0].id, {
@@ -108,8 +108,7 @@ export default defineComponent({
         });
       }
     });
-  },
-  mounted() {
+
     if (this.$store.getters.tourTypes.length) {
       EventEmitter.Emit(Events.TourTypesFetched);
     }

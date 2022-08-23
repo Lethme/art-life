@@ -34,6 +34,7 @@
       v-model="date"
     />
     <art-life-filter-datepicker @statechange="onFilterDatepickerStateChanged" />
+    <art-life-filter-daterange />
     <art-life-footer />
     <!--    <art-life-header />-->
     <!--    <art-life-action-button type="log" image="user-icon">-->
@@ -57,6 +58,7 @@
 import { defineComponent } from "vue";
 import UI from "@/components/UI";
 import ArtLifeProductCardSlider from "@/components/ProductCardSliderComponent";
+import ArtLifeFilterDaterange from "@/components/UI/FilterDaterangeComponent";
 import ArtLifeFooter from "@/components/FooterComponent";
 import { RatePickerState } from "@/components/UI/RatePickerComponent/types";
 import { CheckboxState } from "@/components/UI/CheckboxComponent/types";
@@ -70,6 +72,7 @@ export default defineComponent({
     ...UI,
     ArtLifeProductCardSlider,
     ArtLifeFooter,
+    ArtLifeFilterDaterange,
   },
   data() {
     return {

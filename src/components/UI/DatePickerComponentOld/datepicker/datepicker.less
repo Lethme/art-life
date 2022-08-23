@@ -81,7 +81,6 @@
           .day__month_btn,
           .prev,
           .next {
-            display: block;
             color: #84CCC9;
             transition: all .1s ease;
             font-weight: 500;
@@ -95,13 +94,11 @@
         }
     }
      header {
-      display: flex;
-       justify-content: space-between;
-       flex-wrap: nowrap;
+      display: block;
       line-height: 40px;
       span {
         text-align: center;
-        width: 100%;
+        width: 71.42857142857143%;
         float: left;
       }
       .next, .prev {
@@ -124,7 +121,7 @@
         border-bottom: 2px solid #84CCC9;
       }
       .prev.disabled:after,  .next.disabled:after{
-        opacity: 0.5;
+        opacity: 0;
       }
       .next:after {
         border-top: 1px solid #84CCC9;
@@ -184,14 +181,14 @@
     .cell:not(.blank):not(.disabled).day, .cell:not(.blank):not(.disabled).month, .cell:not(.blank):not(.disabled).year{
       cursor: pointer;
       transition: 0.45s;
-      &:not(.selected):hover {
+      &:not(.selected):hover{
         //border: 1px solid @green;
         color: @green;
       }
     }
     .cell.selected {
       //background: @green;
-      color: @darkGreen;
+      color: #84CCC9;
       position: relative;
       &:hover{
         border: 1px solid transparent;
@@ -201,14 +198,14 @@
         position: absolute;
         height: 12%;
         aspect-ratio: 1;
-        background-color: @darkGreen;
+        background-color: @green;
         border-radius: 100%;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
       }
     }
-    .cell:not(.selected).highlighted {
+    .cell.highlighted {
       //background: @green;
       color: @green;
       //&.selected {
@@ -217,12 +214,9 @@
       &.disabled {
         color: #a3a3a3;
       }
-      &:hover {
-        color: @darkGreen !important;
+      &.highlight-start, &:last-child {
+        background: @darkGreen;
       }
-      //&.highlight-start, &:last-child {
-      //  background: @darkGreen;
-      //}
     }
     .cell.grey {
       color: #888;

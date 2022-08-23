@@ -8,7 +8,10 @@
           icon="datepicker"
           dropdown-class="filter-calendar"
         >
-          <art-life-filter-datepicker />
+          <art-life-filter-daterange
+            :open-date="datesRange"
+            @statechange="dateRangeStateChanged"
+          />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown
@@ -96,7 +99,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ArtLifeFilterDatepicker from "../FilterDatepickerComponent";
+import ArtLifeFilterDaterange from "../FilterDaterangeComponent";
 import ArtLifeRegionPicker from "../RegionPickerComponent";
 import ArtLifePricePicker from "../PricePickerComponent";
 import ArtLifeRatePicker from "../RatePickerComponent";
@@ -106,12 +109,13 @@ import ArtLifeFilterDropdown from "../FilterDropdownComponent";
 import ArtLifeTourTypePicker from "@/components/UI/TourTypePickerComponent/TourTypePickerComponent.vue";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
+import { FilterDaterangeState } from "@/components/UI/FilterDaterangeComponent/types";
 
 export default defineComponent({
   name: "ArtLifeFilter",
   components: {
     ArtLifeTourTypePicker,
-    ArtLifeFilterDatepicker,
+    ArtLifeFilterDaterange,
     ArtLifeRegionPicker,
     ArtLifePricePicker,
     ArtLifeRatePicker,
@@ -122,9 +126,10 @@ export default defineComponent({
   data() {
     return {
       expanded: false,
-      tourTypesFetched: false,
-      countriesFetched: false,
+      tourTypesFetched: this.$store.getters.tourTypes.length !== 0,
+      countriesFetched: this.$store.getters.countries.length !== 0,
       tourTypes: [],
+      datesRange: null,
       country: null,
       comfort: 1,
       activity: 1,
@@ -133,6 +138,9 @@ export default defineComponent({
   methods: {
     switchExpanded() {
       this.expanded = !this.expanded;
+    },
+    dateRangeStateChanged(state: FilterDaterangeState) {
+      this.datesRange = state;
     },
   },
   mounted() {

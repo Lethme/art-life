@@ -49,7 +49,6 @@
       v-if="allowedToShowView('day')"
       :pageDate="pageDate"
       :selectedDate="selectedDate"
-      :selected-dates="selectedDates"
       :showDayView="showDayView"
       :fullMonthName="fullMonthName"
       :allowedToShowView="allowedToShowView"
@@ -67,17 +66,10 @@
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate"
       @showYearCalendar="showYearCalendar"
-      @nextClick="nextClick"
-      @prevClick="prevClick"
-      @dateHover="hoverDate"
-      @dateClick="clickDate"
       :minimumView="minimumView"
       :maximumView="maximumView"
       :preventDisableDateSelection="preventDisableDateSelection"
       :theme="theme"
-      :show-prev-button="showPrevButton"
-      :show-next-button="showNextButton"
-      :highlighted-dates="highlightedDates"
     >
       <template v-slot:customCalendarHeader>
         <slot name="customCalendarHeader"></slot>
@@ -146,7 +138,6 @@ import PickerMonth from "./PickerMonth.vue";
 import PickerYear from "./PickerYear.vue";
 import * as Langlist from "./locale/index";
 import { isValidDate, setDate, validateDateInput } from "./utils/DateUtils";
-import {HighlightedDates} from "@/components/UI/FilterDaterangeComponent/types";
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -161,22 +152,6 @@ export default defineComponent({
     clickoutside: clickOutside,
   },
   props: {
-    showPrevButton: {
-      type: Boolean,
-      default: true,
-    },
-    showNextButton: {
-      type: Boolean,
-      default: true,
-    },
-    highlightedDates: {
-      type: Object as () => HighlightedDates,
-      default: null,
-    },
-    selectedDates: {
-      type: Array as () => Array<Date>,
-      default: new Array<Date>(),
-    },
     modelValue: {
       type: [Date as new () => Date, String, Number],
     },
@@ -308,15 +283,11 @@ export default defineComponent({
     "changed-day",
     "selected",
     "selected-disabled",
-    "next-click",
-    "prev-click",
-    "date-hover",
-    "date-click",
   ],
   setup(props, { emit }) {
     const initmodelvalue = new Date(props.modelValue as unknown as Date);
     const pageTimestamp = ref<number>(0);
-    const selectedDate = ref<Date | String | null>(null);
+    const selectedDate = ref<Date | string | null>(null);
     if (props.modelValue && isValidDate(initmodelvalue)) {
       pageTimestamp.value = initmodelvalue.getTime();
       selectedDate.value = initmodelvalue;
@@ -365,22 +336,6 @@ export default defineComponent({
       return translation.value && translation.value.rtl === true;
     });
     /** ********************************** Methods  *********************************** */
-
-    function prevClick() {
-      emit("prev-click");
-    }
-
-    function nextClick() {
-      emit("next-click");
-    }
-
-    function hoverDate(date?: Date) {
-      emit("date-hover", date);
-    }
-
-    function clickDate(date: Date) {
-      emit("date-click", date);
-    }
 
     /**
      * Sets the date that the calendar should open on
@@ -502,12 +457,7 @@ export default defineComponent({
      * Set the selected date
      * @param {Number} timestamp
      */
-    function setDate1(timestamp?: string | number | Date): void {
-      if (!timestamp) {
-        clearDate();
-        return;
-      }
-
+    function setDate1(timestamp: string | number | Date): void {
       const date = new Date(timestamp);
       selectedDate.value = date;
       setPageDate(date);
@@ -537,8 +487,8 @@ export default defineComponent({
     /**
      * @param {Object} date
      */
-    function selectDate(date?: { timestamp: string | number | Date }): void {
-      setDate1(date ? date.timestamp : 0);
+    function selectDate(date: { timestamp: string | number | Date }): void {
+      setDate1(date.timestamp);
       if (!isInline.value) {
         close(true);
       }
@@ -665,10 +615,6 @@ export default defineComponent({
     init();
 
     return {
-      clickDate,
-      hoverDate,
-      prevClick,
-      nextClick,
       pageTimestamp,
       selectedDate,
       showDayView,

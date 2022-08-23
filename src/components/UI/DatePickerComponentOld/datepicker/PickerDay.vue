@@ -23,27 +23,26 @@
     <div class="vuejs3-datepicker__calendar-actionarea">
       <header>
         <span
-          v-if="showPrevButton"
-          @click="prevClick"
+          @click="isRtl ? nextMonth() : previousMonth()"
           class="prev datepicker-nav"
           :class="{ disabled: isLeftNavDisabled }"
           >&lt;</span
         >
         <span
           class="day__month_btn"
+          @click="showMonthCalendar"
           :class="allowedToShowView('month') ? 'up' : ''"
           >{{ isYmd ? currYearName : currMonthName }}
           {{ isYmd ? currMonthName : currYearName }}</span
         >
         <span
-          v-if="showNextButton"
-          @click="nextClick"
+          @click="isRtl ? previousMonth() : nextMonth()"
           class="next datepicker-nav"
           :class="{ disabled: isRightNavDisabled }"
           >&gt;</span
         >
       </header>
-      <div @mouseenter="hoverDate()" @mouseleave="hoverDate()" :class="isRtl ? 'flex-rtl' : ''">
+      <div :class="isRtl ? 'flex-rtl' : ''">
         <span
           class="cell day-header"
           v-for="d in daysOfWeek"
@@ -63,8 +62,7 @@
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
-          @click="() => { selectDate(day); clickDate(day) }"
-          @mouseenter="hoverDate(day)"
+          @click="selectDate(day)"
         ></span>
       </div>
     </div>
@@ -87,9 +85,6 @@ import {
   getDayNameAbbr,
   stringToDate,
 } from "./utils/DateUtils";
-import {HighlightedDates} from "@/components/UI/FilterDaterangeComponent/types";
-import {isDateBetween} from "@/api/utils/isDateBetween";
-import {datesEqual} from "@/api/utils/datesEqual";
 
 interface IDays {
   date: number;
@@ -108,24 +103,8 @@ interface IDays {
 export default defineComponent({
   name: "PickerDay",
   props: {
-    showPrevButton: {
-      type: Boolean,
-      default: true,
-    },
-    showNextButton: {
-      type: Boolean,
-      default: true,
-    },
-    highlightedDates: {
-      type: Object as () => HighlightedDates,
-      default: null,
-    },
     showDayView: {
       type: Boolean,
-    },
-    selectedDates: {
-      type: Array as () => Array<Date>,
-      default: new Array<Date>(),
     },
     selectedDate: {
       type: [String, Date],
@@ -195,49 +174,15 @@ export default defineComponent({
     "show-month-calendar",
     "selected-disabled",
     "select-date",
-    "next-click",
-    "prev-click",
-    "date-hover",
-    "date-click",
   ],
-  computed: {
-    allSelectedDates(): Array<Date> {
-      return [...this.selectedDates]
-    }
-  },
   setup(props, { emit }) {
     /** ********************************** Methods *********************************** */
-    function prevClick() {
-      emit("prev-click");
-    }
-
-    function nextClick() {
-      emit("next-click");
-    }
-
-    function hoverDate(day?: IDays) {
-      if (day && !day.isDisabled) {
-        emit("date-hover", new Date(day.timestamp));
-      } else {
-        emit("date-hover", undefined);
-      }
-    }
-
-    function clickDate(day?: IDays) {
-      emit("date-click", new Date(day.timestamp));
-    }
-
     /**
      * Whether a day is highlighted and it is the first date
      * in the highlighted range of dates
      * @param {string | Date}
      */
-    function selectDate(date: IDays): void {
-      // if (date.isSelected) {
-      //   emit("select-date", null, date);
-      //   return;
-      // }
-
+    function selectDate(date: { isDisabled: any }): void {
       if (date.isDisabled) {
         emit("selected-disabled", date);
         if (!props.preventDisableDateSelection) {
@@ -324,10 +269,8 @@ export default defineComponent({
      * @return {Boolean}
      */
     function isSelectedDate(dObj: Date): boolean {
-      //const propDate = stringToDate(props.selectedDate);
-      const dates = [...props.selectedDates];
-
-      return dates.filter(date => date).some(date => datesEqual(date, dObj));
+      const propDate = stringToDate(props.selectedDate);
+      return props.selectedDate ? compareDates(propDate, dObj) : false;
     }
 
     /**
@@ -459,8 +402,6 @@ export default defineComponent({
      * Returns Css Classes for a day element
      */
     function dayClasses(day: {
-      date: number,
-      timestamp: number,
       isSelected: any;
       isDisabled: any;
       isHighlighted: any;
@@ -474,7 +415,7 @@ export default defineComponent({
       return {
         selected: day.isSelected,
         disabled: day.isDisabled,
-        highlighted: isDateBetween(new Date(day.timestamp), props.highlightedDates?.from, props.highlightedDates?.to),
+        highlighted: day.isHighlighted,
         today: day.isToday,
         weekend: day.isWeekend,
         sat: day.isSaturday,
@@ -670,10 +611,6 @@ export default defineComponent({
     });
 
     return {
-      clickDate,
-      hoverDate,
-      prevClick,
-      nextClick,
       isDefined,
       showMonthCalendar,
       daysOfWeek,
