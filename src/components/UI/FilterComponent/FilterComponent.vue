@@ -4,7 +4,7 @@
       <!--  MAIN-filter-->
       <div class="filter__main main-filter">
         <art-life-filter-dropdown
-          title="Выбрать дату"
+          :title="datesRangeText.length ? datesRangeText : 'Выбрать дату'"
           icon="datepicker"
           dropdown-class="filter-calendar"
         >
@@ -16,7 +16,7 @@
 
         <art-life-filter-dropdown
           icon="flag"
-          title="Выберите страну"
+          :title="country?.name || 'Выбрать страну'"
           dropdown-class="filter-country"
         >
           <art-life-region-picker
@@ -27,10 +27,13 @@
 
         <art-life-filter-dropdown
           icon="money"
-          title="Выбрать бюджет"
+          :title="priceRangeText || 'Выбрать бюджет'"
           dropdown-class="filter-price"
         >
-          <art-life-price-picker id="filter-price-picker" />
+          <art-life-price-picker
+            id="filter-price-picker"
+            v-model="priceRange"
+          />
         </art-life-filter-dropdown>
 
         <div class="filter__item">
@@ -110,6 +113,10 @@ import ArtLifeTourTypePicker from "@/components/UI/TourTypePickerComponent/TourT
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
 import { FilterDaterangeState } from "@/components/UI/FilterDaterangeComponent/types";
+import moment from "moment";
+import CountryType from "@/api/types/CountryType";
+import { Currency } from "@/components/UI/PricePickerComponent/types";
+import { getCurrencySign } from "@/components/UI/PricePickerComponent/types/Currency";
 
 export default defineComponent({
   name: "ArtLifeFilter",
@@ -131,9 +138,39 @@ export default defineComponent({
       tourTypes: [],
       datesRange: null,
       country: null,
+      priceRange: null,
       comfort: 1,
       activity: 1,
     };
+  },
+  computed: {
+    datesRangeText(): Array<string> {
+      let result: Array<string> = [];
+
+      this.datesRange?.from
+        ? result.push(moment(this.datesRange?.from).format("DD.MM.YYYY"))
+        : {};
+
+      this.datesRange?.to
+        ? result.push(moment(this.datesRange?.to).format("DD.MM.YYYY"))
+        : {};
+
+      return result;
+    },
+    priceRangeText(): Array<string> {
+      if (this.priceRange) {
+        const min = `${this.priceRange.price.min}${getCurrencySign(
+          this.priceRange.currency
+        )}`;
+        const max = `${this.priceRange.price.max}${getCurrencySign(
+          this.priceRange.currency
+        )}`;
+
+        return [min, max];
+      }
+
+      return null;
+    },
   },
   methods: {
     switchExpanded() {

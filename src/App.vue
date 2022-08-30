@@ -19,6 +19,20 @@ export default defineComponent({
     this.$store.dispatch("fetchCountries").then(() => {
       EventEmitter.Emit(Events.CountriesFetched);
     });
+
+    /* eslint-disable */
+    window.addEventListener("resize", this.onWindowResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onWindowResize);
+  },
+  methods: {
+    onWindowResize(event) {
+      this.$store.commit("setWindowSize", {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    },
   },
 });
 </script>
