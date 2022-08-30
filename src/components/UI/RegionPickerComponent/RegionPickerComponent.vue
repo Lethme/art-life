@@ -15,7 +15,7 @@
         <li
           v-for="region in renderedRegions"
           :key="region"
-          :class="modelValue === region.id ? 'active' : ''"
+          :class="modelValue?.id === region.id ? 'active' : ''"
           @click="() => select(region)"
         >
           <i class="icon-compass"></i> {{ region.name }}
@@ -67,7 +67,7 @@ export default defineComponent({
     },
     modelValue: {
       required: false,
-      type: Number,
+      type: Object as () => CountryType,
       default() {
         return null;
       },
@@ -96,7 +96,7 @@ export default defineComponent({
     select(region: CountryType) {
       this.selected = region;
       this.$emit("statechange", region);
-      this.$emit("update:modelValue", region.id);
+      this.$emit("update:modelValue", region);
     },
   },
 });

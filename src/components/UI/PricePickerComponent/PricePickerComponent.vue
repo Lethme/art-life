@@ -10,7 +10,6 @@
       name="price"
       type="hidden"
       :value="price.min"
-      @change="(e) => setMinPrice(e)"
     />
     <input
       id="max"
@@ -18,7 +17,6 @@
       name="price"
       type="hidden"
       :value="price.max"
-      @change="(e) => setMaxPrice(e)"
     />
 
     <div class="filter-price__currency">
@@ -102,6 +100,13 @@ export default defineComponent({
       required: true,
       type: String as PropType<string>,
     },
+    modelValue: {
+      required: false,
+      type: Object as PropType<PricePickerState>,
+      default() {
+        return null;
+      },
+    },
   },
   data() {
     return {
@@ -111,14 +116,23 @@ export default defineComponent({
       },
       currency: Currency.Rubble,
       CurrencyEnum: Currency,
+      pricePickerInitialized: false,
     };
   },
+  emits: ["statechange", "update:modelValue"],
   computed: {
     state(): PricePickerState {
       return {
         currency: this.currency,
         price: { ...this.price },
       };
+    },
+    initialized(): boolean {
+      return (
+        this.price.min !== this.min ||
+        this.price.max !== this.max ||
+        this.pricePickerInitialized
+      );
     },
   },
   mounted() {
@@ -129,10 +143,16 @@ export default defineComponent({
       const initRangedSlider: InitFunc = (document as any).initRangedSlider;
 
       if (initRangedSlider) {
+        if (this.modelValue) {
+          this.price.min = this.modelValue.price.min;
+          this.price.max = this.modelValue.price.max;
+          this.currency = this.modelValue.currency;
+        }
+
         initRangedSlider(
           this.id,
           { ...this.price },
-          { ...this.price },
+          { min: this.min, max: this.max },
           1,
           (values, handle) => {
             this.price = {
@@ -140,7 +160,11 @@ export default defineComponent({
               max: +values[1],
             };
 
-            this.$emit("statechange", this.state);
+            if (this.initialized) {
+              this.pricePickerInitialized = true;
+              this.$emit("statechange", this.state);
+              this.$emit("update:modelValue", this.state);
+            }
           }
         );
       }
@@ -154,21 +178,10 @@ export default defineComponent({
       if (this.currency !== c) {
         this.currency = c;
         this.$emit("statechange", this.state);
+        this.$emit("update:modelValue", this.state);
       }
     },
     getCurrencySign,
-    setMinPrice(value: number) {
-      if (value <= this.price.max) {
-        this.price.min = value;
-        this.$emit("statechange", this.state);
-      }
-    },
-    setMaxPrice(value: number) {
-      if (value >= this.price.min) {
-        this.price.max = value;
-        this.$emit("statechange", this.state);
-      }
-    },
   },
 });
 </script>

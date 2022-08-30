@@ -19,7 +19,7 @@
       >
         <!--  <img src="SvgImg.png" width="200" height="200" alt="image format png" />-->
       </object>
-      <span class="filter__item-text icon-arrow-down">{{ title }}</span>
+      <span v-html="titleText" class="filter__item-text icon-arrow-down" />
     </button>
     <div
       v-if="hidden"
@@ -28,7 +28,7 @@
       }`"
       hidden
     >
-      <slot></slot>
+      <!--      <slot v-if="!hidden"></slot>-->
     </div>
     <div
       v-else
@@ -53,7 +53,7 @@ export default defineComponent({
   props: {
     title: {
       required: true,
-      type: String as () => string,
+      type: [String, Array],
     },
     icon: {
       required: false,
@@ -71,6 +71,19 @@ export default defineComponent({
     return {
       hidden: true,
     };
+  },
+  computed: {
+    titleText() {
+      if (Array.isArray(this.title)) {
+        // if (this.$store.getters.windowSize.width <= 768) {
+        //   return this.title.join(" - ");
+        // }
+
+        return this.title.join("<br>");
+      }
+
+      return this.title;
+    },
   },
   methods: {
     switchHidden() {
