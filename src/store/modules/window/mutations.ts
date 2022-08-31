@@ -1,9 +1,11 @@
 import state, { State } from "./state";
-import WindowSize from "@/store/modules/window/types/WindowSize";
 
 const mutations = {
-  setWindowSize(state: State, payload: WindowSize) {
-    state.windowSize = payload;
+  setWindowWidth(state: State, payload: number) {
+    state.windowWidth = payload;
+  },
+  setWindowHeight(state: State, payload: number) {
+    state.windowHeight = payload;
   },
 };
 

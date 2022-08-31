@@ -9,13 +9,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ArtLifeProductCardSkeleton from "@/components/ProductCardComponent/skeleton/ProductCardSkeletonComponent.vue";
-import initSliders from "@/components/ProductCardSliderComponent/init";
+import initSliders, {
+  removeInitSlidersListener,
+} from "@/components/ProductCardSliderComponent/init";
 
 export default defineComponent({
   name: "ArtLifeProductCardSliderSkeleton",
   components: { ArtLifeProductCardSkeleton },
   mounted() {
-    initSliders();
+    initSliders(this);
+  },
+  beforeUnmount() {
+    removeInitSlidersListener(this);
   },
 });
 </script>

@@ -56,24 +56,6 @@ export default defineComponent({
       yachtTours: new Array<ProductCard>(),
       cruiseTours: new Array<ProductCard>(),
       yachtRent: new Array<ProductCard>(),
-      // products: Array(10).fill({
-      //   imageSource: "charter/01",
-      //   title: "Путешествие в Кению",
-      //   description:
-      //     "Позавтракаем с жирафами, увидим диких кошек на вечернем сафари и встретим восход солнца в саванне на воздушном шаре!",
-      //   dates: "5 марта - 9 марта",
-      //   price: "12 500$",
-      //   linkUrl: "/test",
-      // }),
-      // products_1: Array(10).fill({
-      //   imageSource: "hits/01",
-      //   title: "Путешествие в Кению",
-      //   description:
-      //     "Позавтракаем с жирафами, увидим диких кошек на вечернем сафари и встретим восход солнца в саванне на воздушном шаре!",
-      //   dates: "5 марта - 9 марта",
-      //   price: "12 500$",
-      //   linkUrl: "/test",
-      // }),
     };
   },
   mounted() {
