@@ -1,13 +1,13 @@
-import RequestOptions from "./RequestOptions";
+import RequestOptions from "./utils/types/RequestOptions";
 import {
   getRequestPath,
   getRequestPrefix,
   getRequestQuery,
   getRequestUrl,
-} from "../index";
-import RequestHost from "./RequestHost";
-import RequestProtocol from "./RequestProtocol";
-import RequestPort from "./RequestPort";
+} from "./utils";
+import RequestHost from "./utils/types/RequestHost";
+import RequestProtocol from "./utils/types/RequestProtocol";
+import RequestPort from "./utils/types/RequestPort";
 
 class Url<T = any> {
   readonly host: RequestHost;
