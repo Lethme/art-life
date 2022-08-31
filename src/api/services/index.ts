@@ -1,3 +1,5 @@
+import Url from "./Url";
 import ApiService from "./ApiService";
+import ToursService from "./ToursService";
 
-export { ApiService };
+export { Url, ApiService, ToursService };

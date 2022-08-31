@@ -5,8 +5,9 @@ import {
   RequestPort,
   RequestPrefix,
   RequestProtocol,
-  Url,
 } from "@/api/services/utils/types";
+
+import { Url } from "@/api/services";
 
 class ApiService {
   static get ApiHost(): RequestHost {
