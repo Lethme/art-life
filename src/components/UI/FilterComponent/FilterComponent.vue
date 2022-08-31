@@ -4,7 +4,11 @@
       <!--  MAIN-filter-->
       <div class="filter__main main-filter">
         <art-life-filter-dropdown
-          :title="datesRangeText.length ? datesRangeText : 'Выбрать дату'"
+          :title="
+            datesRangeText && datesRangeText.length
+              ? datesRangeText
+              : 'Выбрать дату'
+          "
           icon="datepicker"
           dropdown-class="filter-calendar"
         >
@@ -144,7 +148,7 @@ export default defineComponent({
     };
   },
   computed: {
-    datesRangeText(): Array<string> {
+    datesRangeText(): string | Array<string> {
       let result: Array<string> = [];
 
       this.datesRange?.from
@@ -155,9 +159,11 @@ export default defineComponent({
         ? result.push(moment(this.datesRange?.to).format("DD.MM.YYYY"))
         : {};
 
-      return result;
+      return this.$store.getters.windowWidth <= 768
+        ? result.join(" - ")
+        : result;
     },
-    priceRangeText(): Array<string> {
+    priceRangeText(): string | Array<string> {
       if (this.priceRange) {
         const min = `${this.priceRange.price.min}${getCurrencySign(
           this.priceRange.currency
@@ -166,7 +172,9 @@ export default defineComponent({
           this.priceRange.currency
         )}`;
 
-        return [min, max];
+        return this.$store.getters.windowWidth <= 768
+          ? `${min} - ${max}`
+          : [min, max];
       }
 
       return null;

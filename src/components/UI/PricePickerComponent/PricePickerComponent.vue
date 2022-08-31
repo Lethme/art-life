@@ -61,6 +61,9 @@
 import { defineComponent, PropType } from "vue";
 import { Currency, Price, PricePickerState } from "./types";
 import { getCurrencySign } from "./types/Currency";
+import initRangedSlider, {
+  removeInitRangedSliderListener,
+} from "@/components/UI/PricePickerComponent/init";
 
 type UpdateFunc = (values: number[], valueIndex: number) => void;
 
@@ -136,42 +139,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    /* Another forced thing to make price picker work */
-    /* Check /public/js/apps.js for document.initRangedSlider */
-
-    const init = async () => {
-      const initRangedSlider: InitFunc = (document as any).initRangedSlider;
-
-      if (initRangedSlider) {
-        if (this.modelValue) {
-          this.price.min = this.modelValue.price.min;
-          this.price.max = this.modelValue.price.max;
-          this.currency = this.modelValue.currency;
-        }
-
-        initRangedSlider(
-          this.id,
-          { ...this.price },
-          { min: this.min, max: this.max },
-          1,
-          (values, handle) => {
-            this.price = {
-              min: +values[0],
-              max: +values[1],
-            };
-
-            if (this.initialized) {
-              this.pricePickerInitialized = true;
-              this.$emit("statechange", this.state);
-              this.$emit("update:modelValue", this.state);
-            }
-          }
-        );
-      }
-    };
-
-    init();
-    document.addEventListener("DOMContentLoaded", init);
+    initRangedSlider(this);
+  },
+  beforeUnmount() {
+    removeInitRangedSliderListener(this);
   },
   methods: {
     setCurrency(c: Currency) {

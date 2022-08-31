@@ -1,11 +1,11 @@
-import WindowSize from "@/store/modules/window/types/WindowSize";
+import { State } from "./state";
 
 const getters = {
-  windowSize(): WindowSize {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
+  windowWidth(state: State): number {
+    return state.windowWidth;
+  },
+  windowHeight(state: State): number {
+    return state.windowHeight;
   },
 };
 

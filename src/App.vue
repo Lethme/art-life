@@ -27,11 +27,9 @@ export default defineComponent({
     window.removeEventListener("resize", this.onWindowResize);
   },
   methods: {
-    onWindowResize(event) {
-      this.$store.commit("setWindowSize", {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
+    async onWindowResize(event) {
+      await this.$store.dispatch("setWindowWidth");
+      await this.$store.dispatch("setWindowHeight");
     },
   },
 });

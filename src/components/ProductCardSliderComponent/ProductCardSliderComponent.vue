@@ -19,7 +19,9 @@
 import { defineComponent, PropType } from "vue";
 import { ProductCard } from "@/components/ProductCardComponent/types";
 import ArtLifeProductCard from "../ProductCardComponent";
-import initSliders from "@/components/ProductCardSliderComponent/init";
+import initSliders, {
+  removeInitSlidersListener,
+} from "@/components/ProductCardSliderComponent/init";
 
 export default defineComponent({
   name: "ArtLifeProductCardSlider",
@@ -34,7 +36,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    initSliders();
+    initSliders(this);
+  },
+  beforeUnmount() {
+    removeInitSlidersListener(this);
   },
 });
 </script>

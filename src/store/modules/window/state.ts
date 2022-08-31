@@ -1,14 +1,11 @@
-import WindowSize from "@/store/modules/window/types/WindowSize";
-
 export interface State {
-  windowSize: WindowSize;
+  windowWidth: number;
+  windowHeight: number;
 }
 
 const state: State = {
-  windowSize: {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  },
+  windowWidth: window.innerWidth,
+  windowHeight: window.innerHeight,
 };
 
 export default state;

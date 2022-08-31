@@ -4,28 +4,48 @@ import ApiService from "@/api/services/ApiService";
 import PaginationFilterQuery from "@/api/types/PaginationFilterQuery";
 import Tour from "@/api/types/Tour";
 import CountryType from "@/api/types/CountryType";
+import { ApiResponse } from "@/api/services/types";
 
 class ToursService extends ApiService {
-  static async GetTourTypes(): Promise<TourType[] | undefined> {
-    const response = await axios.get(this.CreateRequest("tours/types"));
+  static get Path(): string {
+    return "tours";
+  }
 
-    if (response.data) return response.data.data;
-    return undefined;
+  static async GetTourTypes(): Promise<Array<TourType> | undefined> {
+    const url = this.CreateApiRequestUrl({
+      path: [this.Path, "types"],
+    });
+
+    return await this.Try<Array<TourType>>(async () => {
+      const response = await axios.get<ApiResponse<Array<TourType>>>(url.Url);
+      return response.data.data;
+    });
   }
   static async GetToursByTypeId(
     id: number,
     query?: PaginationFilterQuery
-  ): Promise<Tour[] | undefined> {
-    const response = await axios.get(this.CreateRequest("tours", query));
+  ): Promise<Array<Tour> | undefined> {
+    const url = this.CreateApiRequestUrl({
+      path: this.Path,
+      query,
+    });
 
-    if (response.data) return response.data.data;
-    return undefined;
+    return await this.Try<Array<Tour>>(async () => {
+      const response = await axios.get<ApiResponse<Array<Tour>>>(url.Url);
+      return response.data.data;
+    });
   }
-  static async GetCountries(): Promise<CountryType[] | undefined> {
-    const response = await axios.get(this.CreateRequest("tours/countries"));
+  static async GetCountries(): Promise<Array<CountryType> | undefined> {
+    const url = this.CreateApiRequestUrl({
+      path: [this.Path, "countries"],
+    });
 
-    if (response.data) return response.data.data;
-    return undefined;
+    return await this.Try<Array<CountryType>>(async () => {
+      const response = await axios.get<ApiResponse<Array<CountryType>>>(
+        url.Url
+      );
+      return response.data.data;
+    });
   }
 }
 
