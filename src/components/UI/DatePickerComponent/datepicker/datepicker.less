@@ -200,7 +200,12 @@
         content: '';
         position: absolute;
         height: 12%;
-        aspect-ratio: 1;
+        @supports (aspect-ratio: 1) {
+          aspect-ratio: 1;
+        }
+        @supports not (aspect-ratio: 1) {
+          padding-top: 100%;
+        }
         background-color: @darkGreen;
         border-radius: 100%;
         bottom: 0;
