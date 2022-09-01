@@ -3,9 +3,9 @@
     <span v-if="tourTypesFetched"
       ><li v-for="tourType in this.$store.getters.tourTypes" :key="tourType.id">
         <art-life-checkbox
-          @statechange="(state) => select(tourType.id, state)"
+          @statechange="(state) => select(tourType, state)"
           :label-text="tourType.name"
-          :model-value="selected.indexOf(tourType.id) !== -1"
+          :model-value="selected.some((type) => type.id === tourType.id)"
         /></li
     ></span>
     <span v-else>
@@ -20,6 +20,8 @@
 import { defineComponent } from "vue";
 import ArtLifeCheckbox from "@/components/UI/CheckboxComponent/CheckboxComponent.vue";
 import ArtLifeCheckboxSkeleton from "@/components/UI/CheckboxComponent/skeleton/CheckboxSkeletonComponent.vue";
+import TourType from "@/api/types/TourType";
+import tour from "@/api/types/Tour";
 
 export default defineComponent({
   name: "ArtLifeTourTypePicker",
@@ -32,7 +34,7 @@ export default defineComponent({
     },
     modelValue: {
       required: false,
-      type: Array as () => number[],
+      type: Array as () => TourType[],
       default() {
         return [];
       },
@@ -40,20 +42,22 @@ export default defineComponent({
   },
   data() {
     return {
-      selected: [],
+      selected: new Array<TourType>(),
     };
   },
   created() {
     this.selected = this.modelValue;
   },
   methods: {
-    select(id: number, state: boolean) {
+    select(type: TourType, state: boolean) {
       if (state) {
-        if (this.selected.indexOf(id) === -1) {
-          this.selected.push(id);
+        if (!this.selected.some((tourType) => tourType.id === type.id)) {
+          this.selected.push(type);
         }
       } else {
-        this.selected = this.selected.filter((tourId) => tourId !== id);
+        this.selected = this.selected.filter(
+          (tourType) => tourType.id !== type.id
+        );
       }
 
       this.$emit("update:modelValue", this.selected);
