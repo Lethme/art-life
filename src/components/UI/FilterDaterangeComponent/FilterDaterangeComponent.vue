@@ -71,22 +71,25 @@ export default defineComponent({
       popularItems: [
         {
           title: "Все время",
-          click: (e) => {
+          click: () => {
             this.dateFrom = null;
             this.dateTo = null;
+            this.emitStateChange();
           },
         },
         {
           title: "Сегодня",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
             this.dateFrom = new Date(today) as any;
-            this.dateTo = new Date(today) as any;
+            this.dateTo = null;
+            //this.dateTo = new Date(today) as any;
+            this.emitStateChange();
           },
         },
         {
           title: "Эта неделя",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
             today.setDate(today.getDate());
             today.setMonth(today.getMonth());
@@ -96,11 +99,13 @@ export default defineComponent({
             this.dateTo = new Date(
               today.getTime() + daysLeft * 24 * 60 * 60 * 1000
             ) as any;
+
+            this.emitStateChange();
           },
         },
         {
           title: "Этот месяц",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
             const secondDate = new Date(today.getTime());
             secondDate.setMonth(today.getMonth() + 1);
@@ -108,33 +113,36 @@ export default defineComponent({
 
             this.dateFrom = new Date(today) as any;
             this.dateTo = new Date(secondDate) as any;
+            this.emitStateChange();
           },
         },
         {
           title: "Следующие 7 дней",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
 
             this.dateFrom = new Date(today) as any;
             this.dateTo = new Date(
               today.getTime() + 7 * 24 * 60 * 60 * 1000
             ) as any;
+            this.emitStateChange();
           },
         },
         {
           title: "Следующие 30 дней",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
 
             this.dateFrom = new Date(today) as any;
             this.dateTo = new Date(
               today.getTime() + 30 * 24 * 60 * 60 * 1000
             ) as any;
+            this.emitStateChange();
           },
         },
         {
           title: "Следующие 3 месяца",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
             const secondDate = new Date(today);
             secondDate.setMonth(today.getMonth() + 3);
@@ -142,11 +150,12 @@ export default defineComponent({
 
             this.dateFrom = new Date(today) as any;
             this.dateTo = new Date(secondDate) as any;
+            this.emitStateChange();
           },
         },
         {
           title: "Этот год",
-          click: (e) => {
+          click: () => {
             const today = new Date(Date.now());
             const secondDate = new Date(today);
             secondDate.setMonth(12);
@@ -154,6 +163,7 @@ export default defineComponent({
 
             this.dateFrom = new Date(today) as any;
             this.dateTo = new Date(secondDate) as any;
+            this.emitStateChange();
           },
         },
       ],
@@ -227,6 +237,9 @@ export default defineComponent({
     },
   },
   methods: {
+    emitStateChange() {
+      this.$emit("statechange", this.state);
+    },
     increaseOffset() {
       const offset = new Date(this.calendarOffset);
       offset.setMonth(offset.getMonth() + 1);
@@ -246,7 +259,7 @@ export default defineComponent({
           this.dateFrom = null;
         }
         this.dateTo = null;
-        this.$emit("statechange", this.state);
+        this.emitStateChange();
         return;
       }
 
@@ -260,7 +273,7 @@ export default defineComponent({
         }
       }
 
-      this.$emit("statechange", this.state);
+      this.emitStateChange();
     },
     hoverDate(date?: Date) {
       this.dateHovered = date ? new Date(date) : null;
