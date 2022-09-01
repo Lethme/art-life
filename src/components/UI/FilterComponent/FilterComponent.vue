@@ -62,7 +62,7 @@
       <div class="filter__add add-filter">
         <art-life-filter-dropdown
           icon="tour-icon"
-          title="Тип тура"
+          :title="tourTypeText ? tourTypeText : 'Тип тура'"
           dropdown-class="filter-tour"
         >
           <art-life-tour-type-picker
@@ -71,14 +71,20 @@
           />
         </art-life-filter-dropdown>
 
-        <art-life-filter-dropdown icon="comfort" title="Комфорт">
+        <art-life-filter-dropdown
+          icon="comfort"
+          :title="comfortText ? comfortText : 'Комфорт'"
+        >
           <h4 class="dropdown-filter__title">Комфорт</h4>
-          <art-life-rate-picker v-model="comfort" :max-rate="5" />
+          <art-life-rate-picker v-model="comfort" :max-rate="maxComfort" />
         </art-life-filter-dropdown>
 
-        <art-life-filter-dropdown icon="bike-icon" title="Физ. активность">
+        <art-life-filter-dropdown
+          icon="bike-icon"
+          :title="activityText ? activityText : 'Физ. активность'"
+        >
           <h4 class="dropdown-filter__title">Физ. активность</h4>
-          <art-life-rate-picker v-model="activity" :max-rate="5" />
+          <art-life-rate-picker v-model="activity" :max-rate="maxActivity" />
         </art-life-filter-dropdown>
 
         <art-life-filter-dropdown title="Сортировать">
@@ -121,6 +127,7 @@ import moment from "moment";
 import CountryType from "@/api/types/CountryType";
 import { Currency } from "@/components/UI/PricePickerComponent/types";
 import { getCurrencySign } from "@/components/UI/PricePickerComponent/types/Currency";
+import TourType from "@/api/types/TourType";
 
 export default defineComponent({
   name: "ArtLifeFilter",
@@ -139,12 +146,12 @@ export default defineComponent({
       expanded: false,
       tourTypesFetched: this.$store.getters.tourTypes.length !== 0,
       countriesFetched: this.$store.getters.countries.length !== 0,
-      tourTypes: [],
+      tourTypes: new Array<TourType>(),
       datesRange: null,
       country: null,
       priceRange: null,
-      comfort: 1,
-      activity: 1,
+      comfort: 0,
+      activity: 0,
     };
   },
   computed: {
@@ -179,6 +186,29 @@ export default defineComponent({
 
       return null;
     },
+    tourTypeText(): string {
+      if (this.tourTypes && this.tourTypes.length) {
+        return `${this.tourTypes[0].name}${
+          this.tourTypes.length > 1 ? "..." : ""
+        }`;
+      }
+
+      return null;
+    },
+    comfortText(): string {
+      if (this.comfort > 0) {
+        return `${this.comfort}/${this.maxComfort}`;
+      }
+
+      return null;
+    },
+    activityText(): string {
+      if (this.activity > 0) {
+        return `${this.activity}/${this.maxActivity}`;
+      }
+
+      return null;
+    },
   },
   methods: {
     switchExpanded() {
@@ -201,6 +231,15 @@ export default defineComponent({
 
     init();
     //document.addEventListener("DOMContentLoaded", init);
+  },
+  setup(props, context) {
+    const maxComfort = 5;
+    const maxActivity = 5;
+
+    return {
+      maxComfort,
+      maxActivity,
+    };
   },
   created() {
     EventEmitter.On(Events.TourTypesFetched, () => {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="rate-selector rate-selector-activity rating-js"
-    @mouseleave="() => setDemoRate(1)"
+    @mouseleave="() => setDemoRate(0)"
   >
     <div
       v-for="index in maxRate"
@@ -43,8 +43,8 @@ export default defineComponent({
   },
   data() {
     return {
-      rate: 1,
-      demoRate: 1,
+      rate: 0,
+      demoRate: 0,
     };
   },
   mounted() {
@@ -60,10 +60,15 @@ export default defineComponent({
       }
     },
     setRate(rate: number) {
-      if (!this.staticRate && this.rate !== rate && this.modelValue !== rate) {
-        this.rate = rate;
-        this.$emit("update:modelValue", rate);
-        this.$emit("statechange", { rate });
+      if (!this.staticRate) {
+        if (this.rate === rate) {
+          this.rate = 0;
+        } else {
+          this.rate = rate;
+        }
+
+        this.$emit("update:modelValue", this.rate);
+        this.$emit("statechange", { rate: this.rate });
       }
     },
   },
