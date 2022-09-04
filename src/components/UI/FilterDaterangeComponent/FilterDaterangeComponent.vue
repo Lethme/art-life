@@ -244,6 +244,7 @@ export default defineComponent({
       const offset = new Date(this.calendarOffset);
       offset.setMonth(offset.getMonth() + 1);
       this.calendarOffset = offset;
+      this.emitStateChange();
     },
     decreaseOffset() {
       const offset = new Date(this.calendarOffset);
@@ -251,6 +252,7 @@ export default defineComponent({
       if (offset.getMonth() > this.dateFromLimit.from.getMonth()) {
         offset.setMonth(offset.getMonth() - 1);
         this.calendarOffset = offset;
+        this.emitStateChange();
       }
     },
     dateStateChanged(state: InlineDatepickerState) {

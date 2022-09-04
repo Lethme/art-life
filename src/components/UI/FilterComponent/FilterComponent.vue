@@ -87,21 +87,10 @@
           <art-life-rate-picker v-model="activity" :max-rate="maxActivity" />
         </art-life-filter-dropdown>
 
-        <art-life-filter-dropdown title="Сортировать">
-          <ul class="dropdown-filter__list">
-            <li>
-              <art-life-checkbox label-text="По убыванию цены" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="По возрастанию цены" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="По ближайшим датам" />
-            </li>
-            <li>
-              <art-life-checkbox label-text="По популярности" />
-            </li>
-          </ul>
+        <art-life-filter-dropdown
+          :title="sortingText ? sortingText : 'Сортировать'"
+        >
+          <art-life-filter-sort v-model="sortingTypes" />
         </art-life-filter-dropdown>
       </div>
     </div>
@@ -116,18 +105,19 @@ import ArtLifeFilterDaterange from "../FilterDaterangeComponent";
 import ArtLifeRegionPicker from "../RegionPickerComponent";
 import ArtLifePricePicker from "../PricePickerComponent";
 import ArtLifeRatePicker from "../RatePickerComponent";
-import ArtLifeCheckbox from "../CheckboxComponent";
 import ArtLifeFilterButton from "../FilterButtonComponent";
 import ArtLifeFilterDropdown from "../FilterDropdownComponent";
+import ArtLifeFilterSort from "../FilterSortComponent";
 import ArtLifeTourTypePicker from "@/components/UI/TourTypePickerComponent/TourTypePickerComponent.vue";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
 import { FilterDaterangeState } from "@/components/UI/FilterDaterangeComponent/types";
 import moment from "moment";
-import CountryType from "@/api/types/CountryType";
-import { Currency } from "@/components/UI/PricePickerComponent/types";
 import { getCurrencySign } from "@/components/UI/PricePickerComponent/types/Currency";
-import TourType from "@/api/types/TourType";
+import { PricePickerState } from "@/components/UI/PricePickerComponent/types";
+import CountryType from "@/api/types/CountryType";
+import { TourTypePickerState } from "@/components/UI/TourTypePickerComponent/types";
+import { FilterSortState } from "@/components/UI/FilterSortComponent/types";
 
 export default defineComponent({
   name: "ArtLifeFilter",
@@ -137,24 +127,78 @@ export default defineComponent({
     ArtLifeRegionPicker,
     ArtLifePricePicker,
     ArtLifeRatePicker,
-    ArtLifeCheckbox,
     ArtLifeFilterButton,
     ArtLifeFilterDropdown,
+    ArtLifeFilterSort,
   },
   data() {
     return {
       expanded: false,
-      tourTypesFetched: this.$store.getters.tourTypes.length !== 0,
-      countriesFetched: this.$store.getters.countries.length !== 0,
-      tourTypes: new Array<TourType>(),
-      datesRange: null,
-      country: null,
-      priceRange: null,
-      comfort: 0,
-      activity: 0,
+      tourTypesFetched:
+        this.$store.getters.tourTypes &&
+        this.$store.getters.tourTypes.length !== 0,
+      countriesFetched:
+        this.$store.getters.countries &&
+        this.$store.getters.countries.length !== 0,
     };
   },
   computed: {
+    comfort: {
+      get(): number {
+        return this.$store.getters.filterState.comfort;
+      },
+      set(value: number) {
+        this.$store.dispatch("setComfort", value);
+      },
+    },
+    activity: {
+      get(): number {
+        return this.$store.getters.filterState.activity;
+      },
+      set(value: number) {
+        this.$store.dispatch("setActivity", value);
+      },
+    },
+    priceRange: {
+      get(): PricePickerState {
+        return this.$store.getters.filterState.priceRange;
+      },
+      set(value: PricePickerState) {
+        this.$store.dispatch("setPriceRange", value);
+      },
+    },
+    country: {
+      get(): CountryType {
+        return this.$store.getters.filterState.country;
+      },
+      set(value: CountryType) {
+        this.$store.dispatch("setCountry", value);
+      },
+    },
+    datesRange: {
+      get(): FilterDaterangeState {
+        return this.$store.getters.filterState.datesRange;
+      },
+      set(value: FilterDaterangeState) {
+        this.$store.dispatch("setDatesRange", value);
+      },
+    },
+    tourTypes: {
+      get(): TourTypePickerState {
+        return this.$store.getters.filterState.selectedTourTypes;
+      },
+      set(value: TourTypePickerState) {
+        this.$store.dispatch("setSelectedTourTypes", value);
+      },
+    },
+    sortingTypes: {
+      get(): FilterSortState {
+        return this.$store.getters.filterState.sortingTypes;
+      },
+      set(value: FilterSortState) {
+        this.$store.dispatch("setSortingTypes", value);
+      },
+    },
     datesRangeText(): string | Array<string> {
       let result: Array<string> = [];
 
@@ -205,6 +249,14 @@ export default defineComponent({
     activityText(): string {
       if (this.activity > 0) {
         return `${this.activity}/${this.maxActivity}`;
+      }
+
+      return null;
+    },
+    sortingText(): string {
+      if (this.sortingTypes && this.sortingTypes.length) {
+        const item = this.sortingTypes[0];
+        return `${item.title}${this.sortingTypes.length > 1 ? "..." : ""}`;
       }
 
       return null;
