@@ -126,11 +126,15 @@
       .prev.disabled:after,  .next.disabled:after{
         opacity: 0.5;
       }
+       .prev.hidden:after,  .next.hidden:after{
+         opacity: 0;
+         cursor: initial;
+       }
       .next:after {
         border-top: 1px solid #84CCC9;
         border-right: 1px solid #84CCC9;
       }
-      .prev:not(.disabled), .next:not(.disabled), .up:not(.disabled){
+      .prev:not(.disabled):not(.hidden), .next:not(.disabled):not(.hidden), .up:not(.disabled):not(.hidden){
         cursor: pointer;
         font-size: 15px;
         border-radius: 4px;

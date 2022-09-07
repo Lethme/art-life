@@ -23,10 +23,9 @@
     <div class="vuejs3-datepicker__calendar-actionarea">
       <header>
         <span
-          v-if="showPrevButton"
           @click="prevClick"
           class="prev datepicker-nav"
-          :class="{ disabled: isLeftNavDisabled }"
+          :class="{ hidden: !showPrevButton, disabled: isLeftNavDisabled }"
           >&lt;</span
         >
         <span
@@ -36,10 +35,9 @@
           {{ isYmd ? currMonthName : currYearName }}</span
         >
         <span
-          v-if="showNextButton"
           @click="nextClick"
           class="next datepicker-nav"
-          :class="{ disabled: isRightNavDisabled }"
+          :class="{ hidden: !showNextButton, disabled: isRightNavDisabled }"
           >&gt;</span
         >
       </header>
@@ -208,11 +206,15 @@ export default defineComponent({
   setup(props, { emit }) {
     /** ********************************** Methods *********************************** */
     function prevClick() {
-      emit("prev-click");
+      if (props.showPrevButton) {
+        emit("prev-click");
+      }
     }
 
     function nextClick() {
-      emit("next-click");
+      if (props.showNextButton) {
+        emit("next-click");
+      }
     }
 
     function hoverDate(day?: IDays) {
