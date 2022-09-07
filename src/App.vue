@@ -13,11 +13,15 @@ import Events from "@/api/utils/EventEmitter/types/Events";
 
 export default defineComponent({
   created() {
-    this.$store.dispatch("fetchTourTypes").then(() => {
-      EventEmitter.Emit(Events.TourTypesFetched);
+    this.$store.dispatch("fetchTourTypes").then((status) => {
+      if (status) {
+        EventEmitter.Emit(Events.TourTypesFetched);
+      }
     });
-    this.$store.dispatch("fetchCountries").then(() => {
-      EventEmitter.Emit(Events.CountriesFetched);
+    this.$store.dispatch("fetchCountries").then((status) => {
+      if (status) {
+        EventEmitter.Emit(Events.CountriesFetched);
+      }
     });
 
     /* eslint-disable */

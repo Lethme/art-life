@@ -60,7 +60,10 @@ export default defineComponent({
   },
   mounted() {
     EventEmitter.On(Events.TourTypesFetched, () => {
-      if (this.$store.getters.tourTypes.length) {
+      if (
+        this.$store.getters.tourTypes &&
+        this.$store.getters.tourTypes.length
+      ) {
         ToursService.GetToursByTypeId(this.$store.getters.tourTypes[0].id, {
           per_page: 10,
           page: 1,
@@ -91,7 +94,7 @@ export default defineComponent({
       }
     });
 
-    if (this.$store.getters.tourTypes.length) {
+    if (this.$store.getters.tourTypes && this.$store.getters.tourTypes.length) {
       EventEmitter.Emit(Events.TourTypesFetched);
     }
   },

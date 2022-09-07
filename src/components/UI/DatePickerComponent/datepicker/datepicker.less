@@ -160,6 +160,7 @@
       border: 1px solid transparent;
       position: relative;
       transition: all .1s ease;
+      z-index: 100;
       &.month, &.year{
         padding: 10px 5px;
         height: 50px;
@@ -168,63 +169,137 @@
       &.day-header{
         //text-transform: uppercase;
       }
+      &::after {
+        content: '';
+        width: 65%;
+        height: 65%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: transparent center no-repeat;
+        border-radius: 50%;
+        z-index: -1;
+
+        transition: all .1s ease;
+      }
       //&::after {
       //  content: '';
       //  position: absolute;
-      //  height: 12%;
-      //  aspect-ratio: 1;
+      //  @supports (aspect-ratio: 1) {
+      //    height: 12%;
+      //    aspect-ratio: 1;
+      //  }
+      //  @supports not (aspect-ratio: 1) {
+      //    width: 4.5px;
+      //    height: 4.5px;
+      //  }
       //  background-color: transparent;
       //  border-radius: 100%;
       //  bottom: 0;
       //  left: 50%;
       //  transform: translateX(-50%);
-      //  transition: all .1s ease;
+      //  transition: all .2s ease;
       //}
     }
     .cell:not(.blank):not(.disabled).day, .cell:not(.blank):not(.disabled).month, .cell:not(.blank):not(.disabled).year{
       cursor: pointer;
-      transition: 0.45s;
+      transition: .2s;
       &:not(.selected):hover {
         //border: 1px solid @green;
         color: @green;
       }
     }
-    .cell.selected {
+    .cell.today {
       //background: @green;
-      color: @darkGreen;
+      color: #84CCC9;
       position: relative;
       &:hover{
         border: 1px solid transparent;
       }
-      &::after {
+      &::before {
         content: '';
         position: absolute;
-        height: 12%;
         @supports (aspect-ratio: 1) {
+          height: 12%;
+          width: auto;
           aspect-ratio: 1;
         }
         @supports not (aspect-ratio: 1) {
           width: 4.5px;
           height: 4.5px;
         }
-        background-color: @darkGreen;
+        background-color: #84CCC9;
         border-radius: 100%;
         bottom: 0;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%);
+      }
+    }
+    .cell.selected {
+      //background: @green;
+      color: white;
+      position: relative;
+
+      &::before {
+        content: '';
+        width: 65%;
+        height: 65%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #84CCC9 center no-repeat;
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+      &.selected-first::after {
+        content: '';
+        height: 65%;
+        width: 80%;
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        border-radius: 0;
+        background: #E6F5F5;
+        z-index: -2;
+      }
+
+      &.selected-second::after {
+        content: '';
+        height: 65%;
+        width: 80%;
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        transform: translate(-100%, -50%);
+        border-radius: 0;
+        background: #E6F5F5;
+        z-index: -2;
       }
     }
     .cell:not(.selected).highlighted {
-      //background: @green;
-      color: @green;
-      //&.selected {
-      //  background: @green;
-      //}
+      position: relative;
+      //color: @green;
       &.disabled {
         color: #a3a3a3;
       }
       &:hover {
         color: @darkGreen !important;
+      }
+      &::after {
+        content: '';
+        height: 65%;
+        width: 110%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 0;
+        background: #E6F5F5;
+        z-index: -1;
       }
       //&.highlight-start, &:last-child {
       //  background: @darkGreen;

@@ -85,7 +85,7 @@ export default defineComponent({
   },
   computed: {
     renderedRegions() {
-      return this.$store.getters.countries.filter(
+      return this.$store.getters.countries?.filter(
         (region) =>
           region.name.toLowerCase().indexOf(this.searchQuery.toLowerCase()) ===
           0
