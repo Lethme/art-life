@@ -474,7 +474,7 @@ export default defineComponent({
       return {
         selected: day.isSelected,
         disabled: day.isDisabled,
-        "selected-first": day.isSelected && props.selectedDates[1] && props.highlightedDates?.to && datesEqual(new Date(day.timestamp), props.selectedDates[0]),
+        "selected-first": day.isSelected && (props.selectedDates[1] || props.highlightedDates?.to) && datesEqual(new Date(day.timestamp), props.selectedDates[0]),
         "selected-second": day.isSelected && datesEqual(new Date(day.timestamp), props.selectedDates[1]),
         highlighted: isDateBetween(new Date(day.timestamp), props.highlightedDates?.from, props.highlightedDates?.to),
         today: day.isToday,
