@@ -1,6 +1,6 @@
 <template>
   <div class="filter-calendar__body">
-    <div data-datepicker class="filter-calendar__main">
+    <div data-datepicker class="filter-calendar__main" @wheel="mouseWheel">
       <art-life-inline-datepicker
         lang="ru"
         :from="dateFromLimit.from"
@@ -248,6 +248,17 @@ export default defineComponent({
   methods: {
     emitStateChange() {
       this.$emit("statechange", this.state);
+    },
+    mouseWheel(state: WheelEvent) {
+      state.preventDefault();
+
+      if (state.deltaY > 0) {
+        this.increaseOffset();
+      }
+
+      if (state.deltaY < 0) {
+        this.decreaseOffset();
+      }
     },
     increaseOffset() {
       const offset = new Date(this.calendarOffset);
