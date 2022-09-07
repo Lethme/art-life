@@ -48,7 +48,7 @@
           class="cell day-header"
           v-for="d in daysOfWeek"
           :key="d.timestamp"
-          ></span
+          >{{ d }}</span
         >
         <template v-if="blankDays > 0">
           <span
