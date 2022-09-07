@@ -49,6 +49,7 @@ import {
   HighlightedDates,
 } from "@/components/UI/FilterDaterangeComponent/types";
 import { datesEqual } from "@/api/utils/datesEqual";
+import { getDateWithoutTime } from "@/api/utils/getDateWithoutTime";
 
 export default defineComponent({
   name: "ArtLifeFilterDaterange",
@@ -257,7 +258,9 @@ export default defineComponent({
     decreaseOffset() {
       const offset = new Date(this.calendarOffset);
 
-      if (offset.getMonth() > this.dateFromLimit.from.getMonth()) {
+      if (
+        getDateWithoutTime(offset) > getDateWithoutTime(this.dateFromLimit.from)
+      ) {
         offset.setMonth(offset.getMonth() - 1);
         this.calendarOffset = offset;
         this.emitStateChange();
