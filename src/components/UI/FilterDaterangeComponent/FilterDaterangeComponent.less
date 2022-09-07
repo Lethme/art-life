@@ -10,11 +10,14 @@
   }
   &__main {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 510px;
-    flex: 0 0 510px;
-    margin-right: 1.875rem;
     display: flex;
     flex-direction: row;
+
+    .media-mt(768px, {
+      -ms-flex: 0 0 510px;
+      flex: 0 0 510px;
+      margin-right: 1.875rem;
+    });
   }
   &__right {
     -webkit-box-flex: 0;

@@ -7,13 +7,15 @@
         :to="dateFromLimit.to"
         @statechange="dateStateChanged"
         @prevClick="decreaseOffset"
+        @nextClick="increaseOffset"
         @dateHover="hoverDate"
         :open-date="leftOffset"
-        :show-next-button="false"
+        :show-next-button="isMobile"
         :highlighted-dates="highlightedDates"
         :selected-dates="selectedDates"
       />
       <art-life-inline-datepicker
+        v-if="!isMobile"
         lang="ru"
         :from="dateFromLimit.from"
         :to="dateFromLimit.to"
@@ -26,7 +28,7 @@
         :selected-dates="selectedDates"
       />
     </div>
-    <aside class="filter-calendar__right">
+    <aside v-if="showPopularItems" class="filter-calendar__right">
       <h4 class="filter-calendar__title">Популярное</h4>
       <art-life-filter-datepicker-list :items="popularItems" />
     </aside>
@@ -178,6 +180,12 @@ export default defineComponent({
         offset: this.calendarOffset,
       };
     },
+    showPopularItems(): boolean {
+      return this.$store.getters.windowWidth > 1200;
+    },
+    isMobile(): boolean {
+      return this.$store.getters.windowWidth <= 768;
+    },
     leftOffset() {
       return this.calendarOffset;
     },
@@ -271,7 +279,12 @@ export default defineComponent({
         if (datesEqual(this.dateFrom, state.date) && !this.dateTo) {
           this.dateFrom = null;
         } else {
-          this.dateTo = state.date ? new Date(state.date) : null;
+          if (datesEqual(this.dateFrom, state.date)) {
+            this.dateFrom = null;
+            this.dateTo = null;
+          } else {
+            this.dateTo = state.date ? new Date(state.date) : null;
+          }
         }
       }
 
