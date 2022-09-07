@@ -33,9 +33,7 @@
       <art-life-filter-datepicker-list :items="popularItems" />
     </aside>
 
-    <div class="filter-calendar__bottom">
-      {{ bottomHintText }}
-    </div>
+    <div class="filter-calendar__bottom" v-html="bottomHintText" />
   </div>
 </template>
 
@@ -231,9 +229,11 @@ export default defineComponent({
 
         return `${dateFromMoment.format(
           "MMMM D, YYYY"
-        )} - ${dateToMoment.format("MMMM D, YYYY")} (${moment
-          .duration(daysBetween, "day")
-          .asDays()} ${this.getLocaleDays(daysBetween)})`;
+        )} - ${dateToMoment.format("MMMM D, YYYY")}${
+          this.isMobile ? "<br>" : " "
+        }(${moment.duration(daysBetween, "day").asDays()} ${this.getLocaleDays(
+          daysBetween
+        )})`;
       }
 
       if (this.dateFrom) {
