@@ -1,5 +1,5 @@
 <template>
-  <div class="product__item swiper-slide">
+  <div :class="`product__item${swiperSlide ? ' swiper-slide' : ''}`">
     <div class="product__item-img">
       <picture>
         <source
@@ -69,6 +69,13 @@ export default defineComponent({
     linkUrl: {
       required: true,
       type: String as PropType<string>,
+    },
+    swiperSlide: {
+      require: false,
+      type: Boolean as PropType<boolean>,
+      default: () => {
+        return true;
+      },
     },
   },
 });

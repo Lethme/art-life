@@ -37,6 +37,8 @@
           <art-life-price-picker
             id="filter-price-picker"
             v-model="priceRange"
+            :min="minPrice"
+            :max="maxPrice"
           />
         </art-life-filter-dropdown>
 
@@ -95,7 +97,9 @@
       </div>
     </div>
 
-    <art-life-filter-button>Искать тур</art-life-filter-button>
+    <art-life-filter-button @search="searchButtonClick">
+      Искать тур
+    </art-life-filter-button>
   </div>
 </template>
 
@@ -158,6 +162,12 @@ export default defineComponent({
       set(value: number) {
         this.$store.dispatch("setActivity", value);
       },
+    },
+    minPrice(): number {
+      return this.$store.getters.price?.min || undefined;
+    },
+    maxPrice(): number {
+      return this.$store.getters.price?.max || undefined;
     },
     priceRange: {
       get(): PricePickerState {
@@ -263,6 +273,13 @@ export default defineComponent({
     },
   },
   methods: {
+    searchButtonClick() {
+      this.$emit(
+        "search",
+        this.$store.getters.filterState,
+        this.$store.getters.filterQuery
+      );
+    },
     switchExpanded() {
       this.expanded = !this.expanded;
     },

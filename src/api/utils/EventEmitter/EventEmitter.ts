@@ -2,7 +2,7 @@ import IEvent from "./types/IEvent";
 import Events from "./types/Events";
 
 class EventEmitter {
-  private static Events = new Array<IEvent>();
+  static Events = new Array<IEvent>();
 
   static On<TReturn>(type: Events, callback: (...args: any[]) => TReturn) {
     if (!this.Exists(type)) {
@@ -30,7 +30,7 @@ class EventEmitter {
     if (event) {
       for (let i = 0, len = event.callback.length; i < len; i++) {
         const callback = event.callback[i];
-        callback.call(this, args);
+        callback.call(this, ...args);
       }
     }
   }
@@ -40,7 +40,7 @@ class EventEmitter {
   }
 
   private static Get(type: Events): IEvent | undefined {
-    return this.Events.find((e) => e.type);
+    return this.Events.find((e) => e.type === type);
   }
 }
 

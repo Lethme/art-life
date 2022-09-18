@@ -1,5 +1,5 @@
 <template>
-  <div class="product__item swiper-slide">
+  <div :class="`product__item${swiperSlide ? ' swiper-slide' : ''}`">
     <div class="product__item-img">
       <art-life-placeholder width="270px" height="200px" border-radius="10px" />
     </div>
@@ -40,12 +40,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import ArtLifePlaceholder from "@/components/UI/PlaceholderComponent/PlaceholderComponent.vue";
 
 export default defineComponent({
   name: "ArtLifeProductCardSkeleton",
   components: { ArtLifePlaceholder },
+  props: {
+    swiperSlide: {
+      require: false,
+      type: Boolean as PropType<boolean>,
+      default() {
+        return true;
+      },
+    },
+    imageWidth: {
+      required: false,
+      type: String as PropType<string>,
+      default() {
+        return "270px";
+      },
+    },
+    imageHeight: {
+      required: false,
+      type: String as PropType<string>,
+      default() {
+        return "200px";
+      },
+    },
+  },
 });
 </script>
 
