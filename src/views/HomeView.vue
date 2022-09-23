@@ -2,7 +2,7 @@
   <div class="home">
     <art-life-header />
     <art-life-intro>
-      <art-life-filter />
+      <art-life-filter @search="search" />
     </art-life-intro>
     <art-life-slider-section
       title="Хиты продаж"
@@ -40,6 +40,9 @@ import { getProductCardFromTour } from "@/api/types/Tour";
 import { ProductCard } from "@/components/ProductCardComponent/types";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
+import { FilterState } from "@/store/modules/filter/state";
+import { getRequestQuery } from "@/api/services/utils";
+import FilterQuery from "@/api/types/FilterQuery";
 
 export default defineComponent({
   name: "HomeView",
@@ -58,34 +61,46 @@ export default defineComponent({
       yachtRent: new Array<ProductCard>(),
     };
   },
+  methods: {
+    search(filterState: FilterState, filterQuery: FilterQuery) {
+      this.$router.push({
+        path: "/catalog",
+        query: filterQuery as any,
+      });
+    },
+  },
   mounted() {
+    this.$store.dispatch("fetchTourTypes");
+    this.$store.dispatch("fetchCountries");
+    this.$store.dispatch("fetchPrice");
+
     EventEmitter.On(Events.TourTypesFetched, () => {
       if (
         this.$store.getters.tourTypes &&
         this.$store.getters.tourTypes.length
       ) {
-        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[0].id, {
+        ToursService.GetToursByTypeName(this.$store.getters.tourTypes[0].name, {
           per_page: 10,
           page: 1,
         }).then((tours) => {
           this.popularTours = tours.map((tour) => getProductCardFromTour(tour));
         });
 
-        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[1].id, {
+        ToursService.GetToursByTypeName(this.$store.getters.tourTypes[1].name, {
           per_page: 10,
           page: 1,
         }).then((tours) => {
           this.yachtTours = tours.map((tour) => getProductCardFromTour(tour));
         });
 
-        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[2].id, {
+        ToursService.GetToursByTypeName(this.$store.getters.tourTypes[2].name, {
           per_page: 10,
           page: 1,
         }).then((tours) => {
           this.cruiseTours = tours.map((tour) => getProductCardFromTour(tour));
         });
 
-        ToursService.GetToursByTypeId(this.$store.getters.tourTypes[3].id, {
+        ToursService.GetToursByTypeName(this.$store.getters.tourTypes[3].name, {
           per_page: 10,
           page: 1,
         }).then((tours) => {

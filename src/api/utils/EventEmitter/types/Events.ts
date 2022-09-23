@@ -1,7 +1,12 @@
 enum Events {
   TourTypesFetched = "tourTypesFetched",
+  TourTypesFetching = "countriesFetching",
   CountriesFetched = "countriesFetched",
-  Test = "test",
+  CountriesFetching = "countriesFetching",
+  PriceRangeFetching = "priceRangeFetching",
+  PriceRangeFetched = "priceRangeFetched",
+  CatalogToursFetching = "catalogToursFetching",
+  CatalogToursFetched = "catalogToursFetched",
 }
 
 export default Events;

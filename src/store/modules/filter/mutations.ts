@@ -5,6 +5,7 @@ import { TourTypePickerState } from "@/components/UI/TourTypePickerComponent/typ
 import { PricePickerState } from "@/components/UI/PricePickerComponent/types";
 import { FilterDaterangeState } from "@/components/UI/FilterDaterangeComponent/types";
 import { FilterSortState } from "@/components/UI/FilterSortComponent/types";
+import FilterQuery from "@/api/types/FilterQuery";
 
 const mutations = {
   setSelectedTourTypes(state: State, payload: TourTypePickerState) {
@@ -27,6 +28,9 @@ const mutations = {
   },
   setSortingTypes(state: State, payload: FilterSortState) {
     state.sortingTypes = payload;
+  },
+  setStateFromQuery(state: State, payload: FilterQuery) {
+    console.log("test");
   },
 };
 

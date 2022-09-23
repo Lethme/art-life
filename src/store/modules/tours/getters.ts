@@ -7,6 +7,9 @@ const getters = {
   countries(state: State) {
     return state.countries;
   },
+  price(state: State) {
+    return state.price;
+  },
 };
 
 export default getters;

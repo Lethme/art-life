@@ -15,6 +15,8 @@ export interface State {
   sortingTypes: FilterSortState;
 }
 
+export type FilterState = State;
+
 const state: State = {
   selectedTourTypes: [],
   country: null,
