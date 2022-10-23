@@ -1,8 +1,8 @@
 <template>
   <section v-if="toursAvailable" class="section my-mb-7">
-    <div class="container">
+    <div class="section__container">
       <div class="section__head">
-        <h2 class="section__title px-3">{{ title }}</h2>
+        <h2 class="section__title px-3" v-html="title" />
       </div>
       <div
         v-if="products && products.length"
@@ -48,12 +48,32 @@
       </art-life-filter-button>
     </div>
   </section>
-  <section v-else class="section my-mb-7">
-    <div class="container">
+  <section v-else class="section">
+    <div class="section__container pb-5">
       <div class="section__head">
-        <h2 class="section__title px-3">
-          Туров по заданным критериям не найдено
-        </h2>
+        <h2 class="section__title px-3" v-html="title" />
+      </div>
+      <div class="section__body">
+        <h3
+          class="section__subtitle px-3"
+          style="font-size: 18px; line-height: 24px"
+        >
+          Туры по данному запросу не найдены. <br />
+          Попробуйте изменить параметры поиска.
+        </h3>
+      </div>
+    </div>
+    <div class="container-fluid pt-5 pb-2" style="background: #f9fcfc">
+      <div
+        :class="$store.getters.windowWidth >= 1200 ? 'section__container' : ''"
+      >
+        <div class="popular-tours">
+          <art-life-slider-section
+            title="Хиты продаж"
+            :products="popularTours"
+            :skeleton="!popularTours.length"
+          ></art-life-slider-section>
+        </div>
       </div>
     </div>
   </section>
@@ -65,6 +85,7 @@ import { ProductCard } from "@/components/ProductCardComponent/types";
 import ArtLifeProductCard from "@/components/ProductCardComponent/ProductCardComponent.vue";
 import ArtLifeFilterButton from "@/components/UI/FilterButtonComponent/FilterButtonComponent.vue";
 import ArtLifeProductCardSkeleton from "@/components/ProductCardComponent/skeleton/ProductCardSkeletonComponent.vue";
+import ArtLifeSliderSection from "@/components/SliderSectionComponent";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
 
@@ -74,6 +95,7 @@ export default defineComponent({
     ArtLifeProductCardSkeleton,
     ArtLifeFilterButton,
     ArtLifeProductCard,
+    ArtLifeSliderSection,
   },
   data() {
     return {
@@ -111,6 +133,13 @@ export default defineComponent({
       type: Number as PropType<number>,
       default() {
         return 10;
+      },
+    },
+    popularTours: {
+      required: false,
+      type: Array as PropType<ProductCard[]>,
+      default() {
+        return [];
       },
     },
   },

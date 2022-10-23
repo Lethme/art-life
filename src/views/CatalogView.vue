@@ -4,12 +4,14 @@
     <art-life-intro>
       <art-life-filter @search="search" />
     </art-life-intro>
+    <art-life-breadcrumbs />
     <art-life-catalog-product-cards
-      title="Хиты продаж"
+      :title="toursLoaded || !toursAvailable ? title : ''"
       :products="tours"
       :show-load-more-btn="!fullyLoaded"
       :per-page="perPage"
       :tours-available="toursAvailable"
+      :popular-tours="popularTours"
       @loadMore="loadMore"
     />
     <art-life-footer />
@@ -30,9 +32,11 @@ import ArtLifeCatalogProductCards from "@/components/CatalogProductCardsComponen
 import { getProductCardFromTour } from "@/api/types/Tour";
 import EventEmitter from "@/api/utils/EventEmitter/EventEmitter";
 import Events from "@/api/utils/EventEmitter/types/Events";
+import ArtLifeBreadcrumbs from "@/components/BreadcrumbsComponent/BreadcrumbsComponent.vue";
 
 export default defineComponent({
   components: {
+    ArtLifeBreadcrumbs,
     ArtLifeCatalogProductCards,
     ArtLifeFooter,
     ArtLifeFilter,
@@ -46,6 +50,7 @@ export default defineComponent({
       lastPage: undefined,
       total: undefined,
       toursAvailable: true,
+      popularTours: new Array<ProductCard>(),
     };
   },
   setup(props, context) {
@@ -56,11 +61,19 @@ export default defineComponent({
     fullyLoaded() {
       return !(this.currentPage < this.lastPage);
     },
+    toursLoaded() {
+      return this.tours.length !== 0;
+    },
+    title() {
+      return `Найдено туров: <span class="items-total">${this.total}</span>`;
+    },
   },
   mounted() {
     this.$store.dispatch("fetchTourTypes");
     this.$store.dispatch("fetchCountries");
     this.$store.dispatch("fetchPrice");
+
+    console.log(this.$route.path, this.$route.meta);
 
     ToursService.GetTours({
       per_page: this.perPage,
@@ -68,13 +81,15 @@ export default defineComponent({
     }).then((response) => {
       if (!response.data || !response.data.length) {
         this.toursAvailable = false;
-        this.$router.push({
-          name: "error",
-          params: {
-            code: "404",
-            message: "Туры не найдены",
-          },
-        });
+        // this.$router.push({
+        //   name: "error",
+        //   params: {
+        //     code: "404",
+        //     message: "Туры не найдены",
+        //   },
+        // });
+
+        this.loadPopularTours();
       } else {
         this.toursAvailable = true;
       }
@@ -85,9 +100,20 @@ export default defineComponent({
     });
   },
   methods: {
-    search(filterState: FilterState, filterQuery: FilterQuery) {
+    async loadPopularTours() {
+      const tours = await ToursService.GetToursByTypeName(
+        this.$store.getters.tourTypes[0].name,
+        {
+          per_page: 10,
+          page: 1,
+        }
+      );
+
+      this.popularTours = tours.map((tour) => getProductCardFromTour(tour));
+    },
+    async search(filterState: FilterState, filterQuery: FilterQuery) {
       this.tours = [];
-      this.$router.push({
+      await this.$router.push({
         query: filterQuery as any,
       });
       ToursService.GetTours({
@@ -96,13 +122,15 @@ export default defineComponent({
       }).then((response) => {
         if (!response.data || !response.data.length) {
           this.toursAvailable = false;
-          this.$router.push({
-            name: "error",
-            params: {
-              code: "404",
-              message: "Туры не найдены",
-            },
-          });
+          // this.$router.push({
+          //   name: "error",
+          //   params: {
+          //     code: "404",
+          //     message: "Туры не найдены",
+          //   },
+          // });
+
+          this.loadPopularTours();
         } else {
           this.toursAvailable = true;
         }
